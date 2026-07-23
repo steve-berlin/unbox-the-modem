@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Part 4 — Identifying the Main Chips · Nokia G-010G-P course</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<p class="crumb"><a href="/">Course home</a> › Part 4</p>
+
+<h1>Part 4 — Identifying the Main Chips</h1>
+<p><strong>Learn what each chip does — and how to look up your own.</strong></p>
+
+<hr>
+
+<h2>TL;DR</h2>
+<p>A handful of chips do most of the work: a main processor (the brain), a memory chip, a permanent-storage chip, a networking chip, and an optical part for the fiber.</p>
+<p>Each chip usually has tiny markings printed on top — a part number that names exactly what it is.</p>
+<p>You read that number and search for it online to find the maker's datasheet, which describes the chip.</p>
+<p>We teach the method, not this model's exact numbers — you will read those off your own board.</p>
+
+<hr>
+
+<h2>The main chips you'll meet</h2>
+<p>Open almost any small fiber modem and you'll find a few recurring roles. The exact parts vary by model, but the jobs are the same:</p>
+<table>
+<tr><th>Chip</th><th>What it does</th></tr>
+<tr><td>Main processor (SoC)</td><td>The brain — runs the operating system and everything else. "SoC" means <em>system on a chip</em>: one chip that combines the processor with several other functions.</td></tr>
+<tr><td>Memory (RAM)</td><td>Short-term working memory. Fast, but wiped when power is removed.</td></tr>
+<tr><td>Permanent storage</td><td>Keeps the operating system, settings and data even when unplugged.</td></tr>
+<tr><td>Network / PHY chip</td><td>Handles the Ethernet connection. "PHY" is the part that turns data into the electrical signals sent down the cable, and back again.</td></tr>
+<tr><td>Optical part</td><td>Sends and receives the light in the fiber, converting between light and electrical signals.</td></tr>
+</table>
+<p>On many devices the SoC does several of these jobs itself — a modern main processor often has the networking and even some storage built in. So don't be surprised if you find fewer separate chips than the list suggests.</p>
+
+<figure>
+<svg viewBox="0 0 520 260" role="img" aria-labelledby="fig-board-t">
+  <title id="fig-board-t">A circuit board with five labelled blocks: a large main processor in the centre, memory and permanent storage beside it, a network chip, and an optical part at the fiber edge.</title>
+  <rect x="15" y="15" width="490" height="230" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+  <text x="260" y="36" text-anchor="middle" font-size="12" fill="currentColor">Circuit board (layout varies by model)</text>
+  <g font-size="12" fill="currentColor" text-anchor="middle">
+    <rect x="190" y="90" width="140" height="90" rx="6" fill="none" stroke="currentColor" stroke-width="2"/><text x="260" y="130">Main</text><text x="260" y="148">processor</text><text x="260" y="166">(SoC)</text>
+    <rect x="55" y="70" width="110" height="46" rx="5" fill="none" stroke="currentColor"/><text x="110" y="98">Memory (RAM)</text>
+    <rect x="55" y="150" width="110" height="46" rx="5" fill="none" stroke="currentColor"/><text x="110" y="171">Permanent</text><text x="110" y="187">storage</text>
+    <rect x="355" y="70" width="110" height="46" rx="5" fill="none" stroke="currentColor"/><text x="410" y="98">Network / PHY</text>
+    <rect x="355" y="150" width="110" height="46" rx="5" fill="none" stroke="currentColor"/><text x="410" y="171">Optical</text><text x="410" y="187">part</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1.5">
+    <line x1="165" y1="93" x2="190" y2="115"/>
+    <line x1="165" y1="173" x2="190" y2="155"/>
+    <line x1="330" y1="115" x2="355" y2="93"/>
+    <line x1="330" y1="155" x2="355" y2="173"/>
+  </g>
+</svg>
+<figcaption>Same roles on most boards; the positions and exact parts differ.</figcaption>
+</figure>
+
+<h2>How to read chip markings</h2>
+<p>Look at the top face of a chip. Printed on it — sometimes laser-etched and faint — is a set of letters and numbers. This usually includes the maker's logo, a <strong>part number</strong> that identifies the exact chip, and often a date and batch code you can ignore.</p>
+<p>Tips for reading them:</p>
+<ul>
+<li>Use good light held at an angle; faint etched text shows up when light rakes across it.</li>
+<li>A magnifier or your phone camera's zoom helps a lot — take a sharp, close photo.</li>
+<li>Copy the longest, most specific-looking string. That's usually the part number.</li>
+<li>Note the maker's logo too; it narrows down what the number means.</li>
+</ul>
+
+<div class="warning">
+<p>Read markings only with the device <strong>unplugged</strong>, and mind static — hold the board by its edges, as in Part 3. You are looking, not touching the pins.</p>
+</div>
+
+<h2>How to look a chip up</h2>
+<p>Once you have the part number, search for it online together with the word <strong>datasheet</strong>. A datasheet is the document the chip's maker publishes describing exactly what it is and how it works. From it you can usually learn the chip's role, how much memory or storage it holds, and how it connects to the rest of the board.</p>
+<p>If the exact number gives nothing, search a shortened version — the first several characters often identify the family even when the full code is specific to one batch. Cross-check what you find against the chip's size and location on the board; a big central chip is almost certainly the main processor, not a tiny support part.</p>
+
+<div class="note">
+<p>This course does <strong>not</strong> list the Nokia G-010G-P's exact chip numbers. Boards get revised and parts get swapped, so the only reliable source is the chip in front of you. Read the markings off <strong>your</strong> unit and look them up — that skill outlasts any list we could print.</p>
+</div>
+
+<hr>
+
+<h2>Examples</h2>
+<p><strong>Spotting the brain.</strong> One chip is clearly the largest, sits centrally, and has the most connections. You photograph its top, read the part number, search it with "datasheet," and confirm it's the main processor — with the networking built in.</p>
+<p><strong>The faint marking.</strong> A storage chip's text is almost invisible until you tilt a desk lamp across it. Suddenly the etched characters catch the light and you can read the number.</p>
+<p><strong>The shortened search.</strong> The full code returns nothing useful. You drop the last few characters, search again, and land on the chip family's page — enough to tell it's a memory chip and roughly how much it holds.</p>
+
+<hr>
+
+<h2>Quick quiz</h2>
+
+<div class="quiz">
+<p class="q">1. What does the main processor (SoC) do?</p>
+<ul>
+<li><button data-correct>Acts as the brain — runs the operating system and more</button></li>
+<li><button>Stores light for the fiber</button></li>
+<li><button>Only holds screws in place</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">2. How do you find out exactly what a chip is?</p>
+<ul>
+<li><button data-correct>Read its printed part number and search it online with "datasheet"</button></li>
+<li><button>Guess from its colour</button></li>
+<li><button>Weigh it</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">3. Why doesn't this course just list the exact chip numbers for the device?</p>
+<ul>
+<li><button data-correct>Boards get revised and parts swapped — your own chip is the reliable source</button></li>
+<li><button>The numbers are secret</button></li>
+<li><button>Chips don't have numbers</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<hr>
+
+<h2>Try it yourself (safe)</h2>
+<ol>
+<li>Find any old circuit board — an unused router, a broken gadget — or a clear close-up photo of one online.</li>
+<li>Pick the largest chip and read the text off its top face. Use raking light or a zoomed photo if it's faint.</li>
+<li>Search that part number online with the word "datasheet." See what role the chip turns out to have.</li>
+</ol>
+
+<div class="warning">
+<p>If you practise on the Nokia G-010G-P itself, keep it <strong>unplugged</strong> and handle it by the edges. This is a look-only exercise — you're reading markings, not connecting or removing anything.</p>
+</div>
+
+<details>
+<summary>Self-check: you read a chip's number but the search returns nothing. What next?</summary>
+<p>Search a shortened version — the first several characters usually name the chip's family even when the full code is batch-specific. Then cross-check against the chip's size and position on the board to confirm which role it plays.</p>
+</details>
+
+<hr>
+
+<h2>Recap</h2>
+<ul>
+<li>A few chips do the main work: processor (SoC), memory, permanent storage, networking/PHY, and the optical part.</li>
+<li>Modern processors often fold several of these jobs into one chip.</li>
+<li>Chips carry printed part numbers you can read with good light and a close photo.</li>
+<li>Search a part number with "datasheet" to learn what a chip is.</li>
+<li>Read your own board's markings — don't rely on a printed list that may be out of date.</li>
+</ul>
+
+<hr>
+
+<h2>Next</h2>
+<p>Part 5 follows the device from the moment it gets power to the moment Linux is running — the boot process, step by step.</p>
+
+<nav class="lessons">
+<a href="/lessons/03-opening-safely.html">← Part 3: Opening Safely</a>
+<a href="/lessons/05-how-embedded-linux-boots.html">Part 5: How Linux Boots → </a>
+</nav>
+
+<script src="/js/quiz.js" defer></script>
+</body>
+</html>

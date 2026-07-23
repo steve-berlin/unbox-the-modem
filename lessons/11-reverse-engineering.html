@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Part 11 — Reverse Engineering Fundamentals · Nokia G-010G-P course</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<p class="crumb"><a href="/">Course home</a> › Part 11</p>
+
+<h1>Part 11 — Reverse Engineering Fundamentals</h1>
+<p><strong>Working out how something works by examining it — carefully, honestly, and without guessing.</strong></p>
+
+<hr>
+
+<h2>TL;DR</h2>
+<p><strong>Reverse engineering</strong> means figuring out how something works by examining it, without the maker's original design documents.</p>
+<p>The core discipline is simple: <strong>observe, don't guess</strong> — and always write down what you actually <em>see</em> separately from what you only <em>suspect</em>.</p>
+<p>The work runs in a loop: <strong>observe → guess → test → record</strong>, kept in a lab notebook.</p>
+<p>And it must be your own device, or one you have permission to examine.</p>
+
+<hr>
+
+<h2>What reverse engineering is</h2>
+<p>When engineers build a device, they work from documents: diagrams, part lists, source code. If you do not have those documents, you can still learn how the thing works — by looking closely at the device itself and reasoning from what it does. That is <strong>reverse engineering</strong>: going backwards from the finished product to an understanding of how it was built.</p>
+<p>Part 2 already used the idea in passing. This part is about doing it as a discipline, not a guessing game.</p>
+
+<h2>The one rule: observe, don't guess</h2>
+<p>The single most important habit is to keep two things strictly apart:</p>
+<ul>
+<li>What you <strong>observe</strong> — something you can actually see, read, or measure. A fact.</li>
+<li>What you <strong>suspect</strong> — a reasonable idea about what it means. A guess, until tested.</li>
+</ul>
+<p>Beginners get into trouble by writing down a guess as if it were a fact, then building on it. Later everything falls apart because the foundation was never checked. Keep the two labelled, always. "The label says 8," is an observation. "So it is probably the memory," is a guess.</p>
+
+<h2>The loop: observe → guess → test → record</h2>
+<p>Real understanding is built one small, checked step at a time:</p>
+<ol>
+<li><strong>Observe</strong> — notice one concrete thing. A marking, a wire, a message on screen.</li>
+<li><strong>Guess (hypothesis)</strong> — form one idea about what it means. A <strong>hypothesis</strong> is just a testable guess.</li>
+<li><strong>Test</strong> — do something safe that would show whether the guess is right or wrong.</li>
+<li><strong>Record</strong> — write down what happened, whether it matched, and what you now believe.</li>
+</ol>
+<p>Then you go round again with the next question. Each loop turns one guess into either a fact or a discarded idea.</p>
+
+<figure>
+<svg viewBox="0 0 340 340" role="img" aria-labelledby="fig11-t">
+  <title id="fig11-t">A four-step cycle drawn as a loop: observe, then guess, then test, then record, arrow returning to observe.</title>
+  <g font-size="13" fill="currentColor" text-anchor="middle">
+    <rect x="110" y="14"  width="120" height="46" rx="6" fill="none" stroke="currentColor"/><text x="170" y="42">Observe</text>
+    <rect x="242" y="146" width="120" height="46" rx="6" fill="none" stroke="currentColor" transform="translate(-42,0)"/><text x="260" y="174">Guess</text>
+    <rect x="110" y="278" width="120" height="46" rx="6" fill="none" stroke="currentColor"/><text x="170" y="306">Test</text>
+    <rect x="0"   y="146" width="120" height="46" rx="6" fill="none" stroke="currentColor"/><text x="60"  y="168">Record</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1.5" fill="none">
+    <path d="M230 40 Q300 60 278 150"/>
+    <path d="M258 192 Q230 270 232 292"/>
+    <path d="M110 300 Q40 280 60 194"/>
+    <path d="M78 148 Q100 60 110 44"/>
+  </g>
+  <g fill="currentColor" stroke="none">
+    <polygon points="278,150 273,138 285,140"/>
+    <polygon points="232,292 226,281 238,282"/>
+    <polygon points="60,194 55,206 67,205"/>
+    <polygon points="110,44 104,55 116,54"/>
+  </g>
+</svg>
+<figcaption>Round and round: each pass turns one guess into a recorded fact.</figcaption>
+</figure>
+
+<hr>
+
+<h2>Keep a lab notebook</h2>
+<p>Everything you observe, guess, test and conclude goes into a <strong>lab notebook</strong> — paper or a plain text file, it doesn't matter. Why bother?</p>
+<ul>
+<li>Memory is unreliable; a notebook is not. Next week you will not remember which wire you already checked.</li>
+<li>It forces you to separate fact from guess as you write.</li>
+<li>If a step goes wrong, your notes show exactly what you did, so you can undo it or explain it.</li>
+<li>Others can follow — and check — your reasoning.</li>
+</ul>
+<p>Write the date, what you did, what you saw, and clearly mark which lines are facts and which are guesses.</p>
+
+<div class="note">
+<p>A simple format works well: <strong>Observed:</strong> … / <strong>Guess:</strong> … / <strong>Test:</strong> … / <strong>Result:</strong> … . Four labels, and you will never confuse a fact for a hunch again.</p>
+</div>
+
+<hr>
+
+<h2>A short, honest word on permission</h2>
+<p>Reverse engineering is a normal way to learn — but only on a device you own, or one you have clear permission to examine. Do not poke at hardware or systems that are not yours to poke at. The full ethics come in <strong>Part 19</strong>; for now, just hold the simple version: <em>your device, or explicit permission — nothing else.</em></p>
+
+<hr>
+
+<h2>Examples</h2>
+<ul>
+<li><strong>Observation vs guess:</strong> "There is a row of four metal pads near the corner of the board" is an observation. "They are probably a console connector" is a guess — worth testing later, not yet a fact.</li>
+<li><strong>A full loop:</strong> Observe a countdown message on screen → guess it is the bootloader pausing → test by pressing a key during it → record whether a prompt appeared. One question, answered honestly.</li>
+<li><strong>Why the notebook pays off:</strong> two weeks later you revisit the board and your notes already say which pads you checked and what you found — no repeating work, no second-guessing.</li>
+</ul>
+
+<hr>
+
+<h2>Quick quiz</h2>
+
+<div class="quiz">
+<p class="q">1. What does "reverse engineering" mean?</p>
+<ul>
+<li><button data-correct>Working out how something works by examining it, without the maker's documents</button></li>
+<li><button>Building a device from the maker's official plans</button></li>
+<li><button>Throwing a broken device away</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">2. What is the core discipline of good reverse engineering?</p>
+<ul>
+<li><button data-correct>Separate what you observe from what you only suspect</button></li>
+<li><button>Trust your first guess and move on</button></li>
+<li><button>Never write anything down</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">3. What is a "hypothesis"?</p>
+<ul>
+<li><button data-correct>A guess you can test</button></li>
+<li><button>A proven fact</button></li>
+<li><button>A type of cable</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<hr>
+
+<h2>Try it yourself (safe)</h2>
+<p>Pick any everyday object — a stapler, a doorbell, a wind-up toy, a ballpoint pen. On paper, make two short lists:</p>
+<ol>
+<li><strong>3 things you can OBSERVE</strong> about how it works — things you can actually see or feel. ("Pressing the top makes a click.")</li>
+<li><strong>3 things you can only GUESS</strong> — ideas about the inside you cannot see yet. ("There is probably a spring inside.")</li>
+</ol>
+<p>The exercise is not about being right — it is about noticing the difference between the two lists.</p>
+
+<div class="warning">
+<p>Choose a harmless object and do not take apart anything electrical, anything under pressure, or anything that is not yours. Observation first; opening things up is not needed here.</p>
+</div>
+
+<details>
+<summary>Self-check: how can you tell which of your six lines belong on the "observe" list and which belong on the "guess" list?</summary>
+<p>An observation is something you can point to right now — you saw it, heard it, or felt it. A guess is a claim about something you have not directly checked, usually about a hidden inside. If you could not prove it to someone standing next to you without opening the object, it belongs on the guess list until you test it.</p>
+</details>
+
+<hr>
+
+<h2>Recap</h2>
+<ul>
+<li>Reverse engineering is understanding something by examining it, without the maker's documents.</li>
+<li>The core rule is observe, don't guess — and keep facts separate from suspicions.</li>
+<li>The work runs as a loop: observe → guess (hypothesis) → test → record.</li>
+<li>A lab notebook keeps your facts, guesses, tests and results honest and repeatable.</li>
+<li>Only ever examine a device you own or have clear permission to examine.</li>
+</ul>
+
+<hr>
+
+<h2>Next</h2>
+<p>Part 12 puts the observing eye to work on real hardware: how to read a circuit board and make sense of the parts and markings on it.</p>
+
+<nav class="lessons">
+<a href="/lessons/10-bootloaders.html">← Part 10: Bootloaders</a>
+<a href="/lessons/12-reading-circuit-boards.html">Part 12: Reading Boards → </a>
+</nav>
+
+<script src="/js/quiz.js" defer></script>
+</body>
+</html>

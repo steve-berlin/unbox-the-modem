@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Part 13 — Serial Communication (UART) in More Detail · Nokia G-010G-P course</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<p class="crumb"><a href="/">Course home</a> › Part 13</p>
+
+<h1>Part 13 — Serial Communication (UART) in More Detail</h1>
+<p><strong>How a device talks to you one bit at a time — and the voltage trap to avoid.</strong></p>
+
+<hr>
+
+<h2>TL;DR</h2>
+<p>UART is a way for two devices to swap text over just three wires: send, receive and a shared ground.</p>
+<p>The data goes across one bit at a time. The speed is called the <strong>baud rate</strong>; a very common value is <strong>115200</strong>. The common setting "8N1" just describes how each byte is packaged.</p>
+<p>The big danger is <strong>voltage</strong>: many devices use 3.3 volts, and hooking up a 5-volt adapter can destroy them. Check the voltage before you connect anything.</p>
+
+<hr>
+
+<h2>What "one bit at a time" means</h2>
+<p>Everything a computer stores is made of <strong>bits</strong> — tiny on/off values, written as 1 and 0. Eight bits grouped together make a <strong>byte</strong>, and one byte is usually one letter or symbol.</p>
+<p>UART (say "you-art") sends a byte by putting its bits on the wire one after another, like reading a word out loud letter by letter. The receiver listens and rebuilds the byte. "Serial" simply means "one after another, in a line."</p>
+<p>UART is short for <strong>Universal Asynchronous Receiver/Transmitter</strong> — the name of the little part inside each device that does this sending and receiving. You don't need to memorise that; "UART" is enough.</p>
+
+<hr>
+
+<h2>Baud rate = speed</h2>
+<p>Both sides have to agree on how fast the bits go. That speed is the <strong>baud rate</strong>, measured in bits per second. If one side talks faster than the other listens, you get nonsense.</p>
+<p>Think of two people tapping a rhythm: if they don't tap at the same pace, the message falls apart. <strong>115200</strong> is a very common rate on embedded devices, but it is not the only one. Others you'll meet include 9600, 38400 and 57600.</p>
+
+<hr>
+
+<h2>What "8N1" means in plain words</h2>
+<p>Alongside the speed, both sides agree how each byte is wrapped up. The shorthand for the usual choice is <strong>8N1</strong>, and it breaks down like this:</p>
+<table>
+<tr><th>Part</th><th>Means</th></tr>
+<tr><td><strong>8</strong></td><td>Eight data bits — the byte itself.</td></tr>
+<tr><td><strong>N</strong></td><td>No extra check bit ("no parity").</td></tr>
+<tr><td><strong>1</strong></td><td>One stop bit — a short pause marking the end of the byte.</td></tr>
+</table>
+<p>"115200 8N1" is by far the most common combination on this kind of device, so it's the first thing to try.</p>
+
+<hr>
+
+<h2>One byte on the wire</h2>
+<p>The wire normally rests in one state. To send a byte, UART drops a <strong>start bit</strong> first (a signal saying "here it comes"), then the eight data bits, then a <strong>stop bit</strong> to finish. The receiver watches for the start bit and counts the rest.</p>
+
+<figure>
+<svg viewBox="0 0 560 150" role="img" aria-labelledby="fig13-t">
+  <title id="fig13-t">One byte travelling on a wire: a start bit, then eight data bits, then a stop bit, shown as a row of labelled boxes.</title>
+  <text x="280" y="20" text-anchor="middle" font-size="12" fill="currentColor">One byte, left to right in time</text>
+  <g font-size="10" fill="currentColor" text-anchor="middle">
+    <rect x="20"  y="40" width="44" height="44" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><text x="42"  y="67">start</text>
+    <rect x="70"  y="40" width="44" height="44" rx="4" fill="none" stroke="currentColor"/><text x="92"  y="67">bit 1</text>
+    <rect x="120" y="40" width="44" height="44" rx="4" fill="none" stroke="currentColor"/><text x="142" y="67">bit 2</text>
+    <rect x="170" y="40" width="44" height="44" rx="4" fill="none" stroke="currentColor"/><text x="192" y="67">bit 3</text>
+    <rect x="220" y="40" width="44" height="44" rx="4" fill="none" stroke="currentColor"/><text x="242" y="67">bit 4</text>
+    <rect x="270" y="40" width="44" height="44" rx="4" fill="none" stroke="currentColor"/><text x="292" y="67">bit 5</text>
+    <rect x="320" y="40" width="44" height="44" rx="4" fill="none" stroke="currentColor"/><text x="342" y="67">bit 6</text>
+    <rect x="370" y="40" width="44" height="44" rx="4" fill="none" stroke="currentColor"/><text x="392" y="67">bit 7</text>
+    <rect x="420" y="40" width="44" height="44" rx="4" fill="none" stroke="currentColor"/><text x="442" y="67">bit 8</text>
+    <rect x="470" y="40" width="44" height="44" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><text x="492" y="67">stop</text>
+  </g>
+  <text x="242" y="110" text-anchor="middle" font-size="10" fill="currentColor">← the 8 data bits (the byte) →</text>
+  <line x1="20" y1="120" x2="514" y2="120" stroke="currentColor" stroke-width="1.5"/>
+  <text x="500" y="138" text-anchor="end" font-size="10" fill="currentColor">time →</text>
+</svg>
+<figcaption>The start and stop bits fence the byte so the receiver knows where it begins and ends.</figcaption>
+</figure>
+
+<hr>
+
+<h2>The three wires again</h2>
+<p>You met these earlier. A UART link uses three connections:</p>
+<ul>
+<li><strong>TX</strong> — transmit: the wire a device sends on.</li>
+<li><strong>RX</strong> — receive: the wire a device listens on.</li>
+<li><strong>GND</strong> — ground: the shared reference both sides need.</li>
+</ul>
+<p>One side's TX connects to the other side's RX, and vice versa — like two people, where your mouth lines up with the other's ear. Ground must always be connected, or nothing works.</p>
+
+<hr>
+
+<h2>The voltage danger — check first</h2>
+<p><strong>Voltage</strong> is the "pressure" of the electricity. UART wires carry a low voltage, but the exact level matters a great deal. Many small devices run their UART at <strong>3.3 volts</strong>. A USB-to-UART adapter (the little board that lets your PC join in) may be set to <strong>5 volts</strong>.</p>
+<p>Connecting a 5-volt adapter to a 3.3-volt device can permanently damage the device. You cannot tell the voltage by looking — you find it out first, using the multimeter method from the earlier lessons, or by using an adapter that can be switched to 3.3 volts and leaving it there.</p>
+
+<div class="warning">
+<p><strong>Voltage warning.</strong> Never connect a UART adapter until you know the device's UART voltage and your adapter is set to match — usually 3.3 volts on this kind of hardware. A mismatch can destroy the device with no warning. When unsure, do not connect. Also never connect the adapter's power wire unless you have a specific reason; for just watching the boot messages, TX, RX and GND are enough.</p>
+</div>
+
+<hr>
+
+<h2>Terminal programs</h2>
+<p>To read the text coming from a device, you run a <strong>terminal program</strong> on your PC — a simple window that shows incoming characters and sends your keystrokes back. Common ones:</p>
+<table>
+<tr><th>Program</th><th>Where it's used</th></tr>
+<tr><td><strong>screen</strong></td><td>Linux and Mac — usually already installed.</td></tr>
+<tr><td><strong>minicom</strong></td><td>Linux — a friendlier menu-driven option.</td></tr>
+<tr><td><strong>PuTTY</strong></td><td>Windows (and Linux) — a small free download.</td></tr>
+</table>
+<p>You tell the program which connection to use, the baud rate, and the 8N1 setting. Then it shows whatever the device is saying.</p>
+
+<hr>
+
+<h2>Finding the right speed, and reading garbled text</h2>
+<p>If you don't know the baud rate, you find it by trial. Start at 115200. If the text is clean and readable, that's the rate. If instead you see <strong>garbled text</strong> — random symbols, boxes and gibberish — the speed is almost always wrong. Try another common rate and look again.</p>
+<p>Garbled output means the two sides disagree on timing, not that the device is broken. Clean, readable words are the sign you've matched the speed.</p>
+
+<hr>
+
+<h2>Examples</h2>
+<ul>
+<li>You open <strong>screen</strong> at 115200 8N1 and see readable startup messages scrolling by — the rate is right.</li>
+<li>You see "�3�}�▯" nonsense instead — the baud rate is probably wrong, so you try 57600, then 38400.</li>
+<li>Your adapter has a jumper marked 3V3 / 5V. You move it to 3V3 before touching a device you believe runs at 3.3 volts.</li>
+<li>You connect only TX, RX and GND to watch the boot, leaving the power wire off entirely.</li>
+</ul>
+
+<hr>
+
+<h2>Quick quiz</h2>
+
+<div class="quiz">
+<p class="q">1. What does the baud rate describe?</p>
+<ul>
+<li><button data-correct>How fast the bits travel</button></li>
+<li><button>The colour of the wires</button></li>
+<li><button>How much storage the device has</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">2. In "8N1", what does the 8 mean?</p>
+<ul>
+<li><button data-correct>Eight data bits — the byte itself</button></li>
+<li><button>Eight wires</button></li>
+<li><button>Eight volts</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">3. Why check the voltage before connecting an adapter?</p>
+<ul>
+<li><button data-correct>A 5V adapter on a 3.3V device can destroy it</button></li>
+<li><button>Higher voltage makes text arrive faster</button></li>
+<li><button>It changes the baud rate</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<hr>
+
+<h2>Try it yourself (safe)</h2>
+<p>Install a terminal program on your PC now, before you ever touch the device. On Windows, download <strong>PuTTY</strong>; on Linux or Mac, check whether <strong>screen</strong> is already there by opening a terminal and running <code>screen --version</code>.</p>
+<p>Open the program and find where you would set the connection, the baud rate and the byte format. Write down the settings you would use for a first attempt: <strong>115200</strong> baud, <strong>8N1</strong>.</p>
+
+<div class="warning">
+<p>Do <strong>not</strong> connect anything to the Nokia device yet. This exercise is only about installing the software and noting the settings. Connecting hardware comes later, after you have checked the voltage and set your adapter to match.</p>
+</div>
+
+<details>
+<summary>Self-check: which three settings must both sides agree on?</summary>
+<p>The baud rate (speed, e.g. 115200), the byte format (e.g. 8N1), and of course the physical wiring — TX to RX, RX to TX, and a shared ground. If any of these is wrong you either get garbled text or nothing at all.</p>
+</details>
+
+<hr>
+
+<h2>Recap</h2>
+<ul>
+<li>UART sends bytes one bit at a time over three wires: TX, RX and GND.</li>
+<li>Baud rate is the speed; 115200 is a common starting value.</li>
+<li>"8N1" means eight data bits, no check bit, one stop bit.</li>
+<li>Each byte is fenced by a start bit and a stop bit.</li>
+<li>Voltage must be checked first — a 5V adapter can destroy a 3.3V device.</li>
+<li>Garbled text usually means the wrong speed, not a broken device.</li>
+</ul>
+
+<h2>Next</h2>
+<p>Part 14 looks at how small devices organise their files — the read-only part that holds the operating system, the writable part that holds settings, and the memory-only parts that vanish on reboot.</p>
+
+<nav class="lessons">
+<a href="/lessons/12-reading-circuit-boards.html">← Part 12: Reading Boards</a>
+<a href="/lessons/14-embedded-filesystems.html">Part 14: Embedded File Systems → </a>
+</nav>
+
+<script src="/js/quiz.js" defer></script>
+</body>
+</html>

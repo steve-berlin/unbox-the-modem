@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Part 2 — UART: The Hidden Console · Nokia G-010G-P course</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<p class="crumb"><a href="/">Course home</a> › Part 2</p>
+
+<h1>Part 2 — UART: The Hidden Console</h1>
+<p><strong>The easiest window into an embedded device.</strong></p>
+
+<hr>
+
+<h2>TL;DR</h2>
+<p>A <strong>console</strong> is a text window that shows what a device is doing as it starts and runs — and often lets you type commands back to it.</p>
+<p><strong>UART</strong> is a simple wired link, over just a few wires, that carries that text between the device and your computer.</p>
+<p>It uses three wires: one the device talks on, one it listens on, and one shared reference. It is usually the easiest way in.</p>
+<p>The single rule that keeps you safe: match the voltage, and never connect blindly. We do not wire anything up yet.</p>
+
+<hr>
+
+<h2>What is a "console"?</h2>
+<p>When Linux runs on a normal PC, it can print messages to the screen and read what you type on the keyboard. That two-way text channel is called a <strong>console</strong>.</p>
+<p>The Nokia G-010G-P has no screen and no keyboard socket. But the software inside it still wants to print messages and still can accept typed commands — it just needs somewhere to send them. UART is that "somewhere."</p>
+<p>With a console you can watch the device wake up line by line: the starter program, then the operating system loading, then the networking software coming online. On many devices you can also press a key during start-up and type commands directly.</p>
+
+<h2>What is UART, in plain terms?</h2>
+<p>UART stands for <em>Universal Asynchronous Receiver / Transmitter</em>. Ignore the long name. In practice UART is just a tiny, old, extremely common way for two devices to send text to each other over a couple of wires, one character at a time.</p>
+<p>Think of it like two people passing notes through a slot. One slot is for sending, one slot is for receiving, and they both agree on how fast to pass notes so nothing gets scrambled. That agreed speed is called the <strong>baud rate</strong> — we will meet it properly later.</p>
+
+<h2>Why is it the easiest window in?</h2>
+<p>Because it is built into the device on purpose. Engineers use UART to develop and debug the product, so the "door" is usually already there on the board — you just have to find it. No network login, no password screen; the messages simply pour out as the device runs.</p>
+
+<h2>The three wires</h2>
+<p>A basic UART link needs only three connections. The names describe them from the device's point of view:</p>
+<table>
+<tr><th>Wire</th><th>Short name</th><th>What it does</th></tr>
+<tr><td>Transmit</td><td>TX</td><td>The device <strong>talks</strong> — sends its messages out.</td></tr>
+<tr><td>Receive</td><td>RX</td><td>The device <strong>listens</strong> — takes in commands you type.</td></tr>
+<tr><td>Ground</td><td>GND</td><td>The shared reference both sides measure against.</td></tr>
+</table>
+<p>The important trick: one side's "talk" wire must reach the other side's "listen" wire. So the device's TX goes to your adapter's RX, and the device's RX goes to your adapter's TX. They <strong>cross over</strong>. GND simply connects straight across to GND.</p>
+
+<figure>
+<svg viewBox="0 0 560 200" role="img" aria-labelledby="fig-uart-t">
+  <title id="fig-uart-t">A PC connects to a USB-to-UART adapter, which connects to the device. The transmit and receive wires cross over between adapter and device, while ground connects straight across.</title>
+  <g font-size="12" fill="currentColor" text-anchor="middle">
+    <rect x="10"  y="70" width="110" height="60" rx="6" fill="none" stroke="currentColor" stroke-width="2"/><text x="65"  y="105">PC</text>
+    <rect x="225" y="70" width="120" height="60" rx="6" fill="none" stroke="currentColor" stroke-width="2"/><text x="285" y="98">USB-to-UART</text><text x="285" y="115">adapter</text>
+    <rect x="450" y="70" width="100" height="60" rx="6" fill="none" stroke="currentColor" stroke-width="2"/><text x="500" y="105">Device</text>
+  </g>
+  <g stroke="currentColor" stroke-width="2">
+    <line x1="120" y1="100" x2="225" y2="100"/>
+  </g>
+  <text x="172" y="92" text-anchor="middle" font-size="10" fill="currentColor">USB</text>
+  <g stroke="currentColor" stroke-width="1.5">
+    <line x1="345" y1="82" x2="450" y2="112"/>
+    <line x1="345" y1="112" x2="450" y2="82"/>
+    <line x1="345" y1="125" x2="450" y2="125"/>
+  </g>
+  <g font-size="10" fill="currentColor">
+    <text x="352" y="78">TX</text>
+    <text x="352" y="122">RX</text>
+    <text x="352" y="138">GND</text>
+    <text x="432" y="78" text-anchor="end">RX</text>
+    <text x="432" y="122" text-anchor="end">TX</text>
+    <text x="432" y="138" text-anchor="end">GND</text>
+  </g>
+</svg>
+<figcaption>Talk-to-listen and listen-to-talk cross over; ground goes straight across.</figcaption>
+</figure>
+
+<h2>What gear do you need?</h2>
+<ul>
+<li>A <strong>USB-to-UART adapter</strong> — a small board that plugs into your computer's USB port and turns UART's wire signals into something the computer reads as a serial port.</li>
+<li>A few <strong>jumper wires</strong> — thin wires with plug or socket ends to join the adapter to the board.</li>
+<li>A <strong>terminal program</strong> on your computer — software that opens the serial port and shows the text (and lets you type). Nothing exotic; free ones exist for every system.</li>
+</ul>
+
+<div class="warning">
+<p><strong>The big rule: match the voltage.</strong> Different boards send their UART signals at different voltage levels. Connecting a higher-voltage adapter to a lower-voltage device can permanently damage it. You must find out your device's UART voltage and set your adapter to the same level <em>before</em> connecting anything. We cover how to check that on your own unit in Parts 12–13 — do not guess it, and do not connect blindly.</p>
+</div>
+
+<div class="note">
+<p>Where the UART pins actually are on the Nokia G-010G-P, and what voltage they use, is something you will read and verify <strong>on your own device</strong> later. This part is about understanding the idea, not touching the board.</p>
+</div>
+
+<hr>
+
+<h2>Examples</h2>
+<p><strong>Watching a start-up.</strong> You open the terminal program, plug in the adapter, power the device, and text scrolls past: the starter program reporting in, then the operating system loading, then networking coming up. It is like reading the device's diary out loud, live.</p>
+<p><strong>Catching an error.</strong> A device that fails to come online often prints <em>why</em> on the console — a missing file, a failed check — even when its lights just blink unhelpfully.</p>
+<p><strong>The crossover in real life.</strong> If you wire TX to TX by mistake, you get silence: both sides are talking into each other's mouths and nobody is listening. Swapping to the crossover fixes it.</p>
+
+<hr>
+
+<h2>Quick quiz</h2>
+
+<div class="quiz">
+<p class="q">1. What does UART give you access to on an embedded device?</p>
+<ul>
+<li><button data-correct>A text console — watch its messages and often type commands</button></li>
+<li><button>A faster Internet connection</button></li>
+<li><button>Extra storage space</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">2. On a three-wire UART link, how do the talk and listen wires connect?</p>
+<ul>
+<li><button data-correct>They cross over: device TX to adapter RX, device RX to adapter TX</button></li>
+<li><button>Straight across: TX to TX, RX to RX</button></li>
+<li><button>You only need the ground wire</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">3. What must you check before connecting an adapter to a board?</p>
+<ul>
+<li><button data-correct>That the voltage levels match</button></li>
+<li><button>That the device is painted the right colour</button></li>
+<li><button>Nothing — just connect and see what happens</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<hr>
+
+<h2>Try it yourself (safe)</h2>
+<p>No wiring yet — this exercise is pure research.</p>
+<ol>
+<li>Search online for "USB-to-UART adapter" and look at a few photos. Notice the USB end and the little row of labelled pins (you will often see TX, RX and GND printed right on the board).</li>
+<li>Read one short article or watch one short video of someone reading a device's boot messages over UART. Just observe what the scrolling text looks like.</li>
+<li>Find where an adapter's voltage is set (many have a small jumper or switch). Note that this is the setting you would match to a device.</li>
+</ol>
+
+<div class="warning">
+<p>Do <strong>not</strong> connect anything to the Nokia G-010G-P in this part. We have not found its pins or confirmed its voltage yet. Connecting blindly is exactly the mistake that damages boards.</p>
+</div>
+
+<details>
+<summary>Self-check: why do TX and RX have to cross over?</summary>
+<p>Because "talk" only means something if it reaches the other side's "listen." If both sides send on the same wire, neither is receiving — you get silence. Crossing device-talk to adapter-listen (and back) lets each side hear the other.</p>
+</details>
+
+<hr>
+
+<h2>Recap</h2>
+<ul>
+<li>A console is a live text window into a device as it starts and runs.</li>
+<li>UART is a simple few-wire link that carries that text to your computer.</li>
+<li>Three wires: TX (device talks), RX (device listens), GND (shared reference).</li>
+<li>TX and RX cross over; GND connects straight across.</li>
+<li>You need a USB-to-UART adapter, jumper wires and a terminal program.</li>
+<li>Always match the voltage, and never connect blindly.</li>
+</ul>
+
+<hr>
+
+<h2>Next</h2>
+<p>Part 3 covers opening the device safely — unplugging first, avoiding static, and figuring out which form factor your unit actually is before any screwdriver comes near it.</p>
+
+<nav class="lessons">
+<a href="/lessons/01-whats-inside.html">← Part 1: What's Inside</a>
+<a href="/lessons/03-opening-safely.html">Part 3: Opening Safely → </a>
+</nav>
+
+<script src="/js/quiz.js" defer></script>
+</body>
+</html>

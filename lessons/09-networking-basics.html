@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Part 9 — Networking Basics · Nokia G-010G-P course</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<p class="crumb"><a href="/">Course home</a> › Part 9</p>
+
+<h1>Part 9 — Networking Basics (Ethernet, GPON, IP, MAC, DHCP)</h1>
+<p><strong>How your device finds its address and reaches the Internet over a shared fiber line.</strong></p>
+
+<hr>
+
+<h2>TL;DR</h2>
+<p><strong>Ethernet</strong> is the ordinary wired network — the cable with the wide clip that plugs into computers and routers.</p>
+<p>A <strong>MAC address</strong> is a device's built-in hardware name, fixed at the factory. An <strong>IP address</strong> is its address on a network, which can change.</p>
+<p><strong>DHCP</strong> is the helper that hands out IP addresses automatically, so you don't set them by hand.</p>
+<p><strong>GPON</strong> is the fiber system where many homes share one fiber line back to the Internet company. This device sits at your end of that fiber.</p>
+
+<hr>
+
+<h2>Ethernet: the common wired network</h2>
+<p>When people say "a network cable", they almost always mean an <strong>Ethernet</strong> cable. It is the standard way to wire computers, routers and devices together in a home or office. Your fiber device turns the light coming down the fiber into ordinary Ethernet that a normal computer or router can understand.</p>
+
+<h2>MAC address: the device's built-in name</h2>
+<p>Every piece of network hardware is given a <strong>MAC address</strong> when it is manufactured — a long unique code burned in at the factory, written as six pairs like <code>a1:b2:c3:d4:e5:f6</code>. Think of it as a permanent serial number for the network part. It normally never changes, and it is how a local network tells one physical device from another.</p>
+
+<h2>IP address: the device's address on a network</h2>
+<p>A <strong>IP address</strong> is where a device can be reached <em>on a particular network</em> — for example <code>192.168.1.20</code>. Unlike the MAC address, it is not fixed to the hardware: move the device to a different network and it gets a different IP address. If the MAC address is like a person's fingerprint, the IP address is like the street address of wherever they are staying this week.</p>
+
+<h2>DHCP: automatic address handout</h2>
+<p>Setting an IP address by hand for every device would be slow and error-prone. Instead, most networks run a service called <strong>DHCP</strong>. When a device joins the network it politely asks, "may I have an address?", and the DHCP service hands one out, along with a few other settings it needs. This all happens in a second or two, invisibly. (Services running quietly in the background were Part 8 — DHCP is one of them.)</p>
+
+<hr>
+
+<h2>GPON: how the fiber actually reaches you</h2>
+<p><strong>GPON</strong> is the kind of fiber network many Internet companies use. Its trick is <em>sharing</em>: instead of running a separate fiber all the way from the Internet company to every single home, one fiber leaving their building is split and shared between many homes.</p>
+<p>Three pieces make it work:</p>
+<ul>
+<li><strong>ONT</strong> — the box at <em>your</em> end of the fiber. That is what this device is: an "Optical Network Terminal". It turns the light into Ethernet for you.</li>
+<li><strong>Splitter</strong> — a simple part out in the street or a cabinet that splits one fiber into many, so a group of homes can share the line back to the Internet company.</li>
+<li><strong>OLT</strong> — the big unit at the <em>Internet company's</em> end ("Optical Line Terminal") that all those shared fibers connect back to.</li>
+</ul>
+
+<figure>
+<svg viewBox="0 0 640 130" role="img" aria-labelledby="fig9-t">
+  <title id="fig9-t">Data path: your home connects to the ONT, which connects through a street splitter to the OLT at the Internet company, which connects to the Internet. Arrows point both ways.</title>
+  <g font-size="12" fill="currentColor" text-anchor="middle">
+    <rect x="8"   y="46" width="96" height="44" rx="6" fill="none" stroke="currentColor"/><text x="56"  y="72">Your home</text>
+    <rect x="132" y="46" width="96" height="44" rx="6" fill="none" stroke="currentColor" stroke-width="2"/><text x="180" y="66">ONT</text><text x="180" y="82" font-size="10">this device</text>
+    <rect x="256" y="46" width="96" height="44" rx="6" fill="none" stroke="currentColor"/><text x="304" y="66">splitter</text><text x="304" y="82" font-size="10">in the street</text>
+    <rect x="380" y="46" width="96" height="44" rx="6" fill="none" stroke="currentColor"/><text x="428" y="66">OLT</text><text x="428" y="82" font-size="10">at the ISP</text>
+    <rect x="504" y="46" width="120" height="44" rx="6" fill="none" stroke="currentColor"/><text x="564" y="72">Internet</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1.5">
+    <line x1="104" y1="68" x2="130" y2="68"/>
+    <line x1="228" y1="68" x2="254" y2="68"/>
+    <line x1="352" y1="68" x2="378" y2="68"/>
+    <line x1="476" y1="68" x2="502" y2="68"/>
+  </g>
+  <text x="320" y="26" text-anchor="middle" font-size="11" fill="currentColor">← data flows both ways →</text>
+</svg>
+<figcaption>Home ↔ ONT ↔ splitter ↔ OLT ↔ Internet. The splitter is why the fiber is shared.</figcaption>
+</figure>
+
+<p>So the full path is: <strong>your home ↔ ONT ↔ splitter ↔ OLT ↔ Internet</strong>. Data flows both ways along that chain — out when you send, back when you receive.</p>
+
+<hr>
+
+<h2>Examples</h2>
+<ul>
+<li><strong>MAC vs IP:</strong> your laptop's MAC address is the same in every café; the IP address it is given changes with each café's network.</li>
+<li><strong>DHCP in action:</strong> plug a new laptop into a home router and it "just works" — DHCP quietly handed it an IP address in the background.</li>
+<li><strong>The shared fiber:</strong> a whole street can feed through one splitter back to a single OLT port at the Internet company. Your ONT is your personal end of that shared line.</li>
+<li><strong>Where this device fits:</strong> the word "ONT" simply means the box in your home at the end of the fiber — this Nokia unit.</li>
+</ul>
+
+<hr>
+
+<h2>Quick quiz</h2>
+
+<div class="quiz">
+<p class="q">1. Which one is fixed into the hardware at the factory and normally never changes?</p>
+<ul>
+<li><button data-correct>The MAC address</button></li>
+<li><button>The IP address</button></li>
+<li><button>The DHCP</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">2. What does DHCP do?</p>
+<ul>
+<li><button data-correct>Hands out IP addresses to devices automatically</button></li>
+<li><button>Splits one fiber into many</button></li>
+<li><button>Stores the operating system</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">3. In GPON, what is the ONT?</p>
+<ul>
+<li><button data-correct>The box at your end of the fiber — this device</button></li>
+<li><button>The big unit at the Internet company</button></li>
+<li><button>The part in the street that shares the fiber</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<hr>
+
+<h2>Try it yourself (safe)</h2>
+<p>Find your <em>own</em> computer's IP and MAC address. These commands only read and print — they change nothing.</p>
+<ul>
+<li><strong>Windows:</strong> open Command Prompt and type <code>ipconfig /all</code>. Look for "Physical Address" (the MAC) and "IPv4 Address" (the IP).</li>
+<li><strong>Linux or Mac:</strong> open a terminal and type <code>ip addr</code> (on older Macs, <code>ifconfig</code>). The MAC appears after <code>link/ether</code>; the IP after <code>inet</code>.</li>
+</ul>
+
+<div class="warning">
+<p>Run these on your own everyday computer, not on the fiber device. They are read-only and safe. Do not type them into the fiber unit while you are still learning.</p>
+</div>
+
+<details>
+<summary>Self-check: your laptop shows one MAC address but a different IP address at home and at work. Why?</summary>
+<p>The MAC address is burned into the laptop's network hardware, so it stays the same everywhere. The IP address is assigned by whatever network you join — usually by that network's DHCP service — so it changes from place to place.</p>
+</details>
+
+<hr>
+
+<h2>Recap</h2>
+<ul>
+<li>Ethernet is the ordinary wired network your computers and router use.</li>
+<li>A MAC address is a device's fixed, factory-set hardware name.</li>
+<li>An IP address is its changeable address on a particular network.</li>
+<li>DHCP is the service that hands out IP addresses automatically.</li>
+<li>GPON shares one fiber among many homes: your home ↔ ONT ↔ splitter ↔ OLT ↔ Internet.</li>
+<li>This device is the ONT — the fiber's end point inside your home.</li>
+</ul>
+
+<hr>
+
+<h2>Next</h2>
+<p>Part 10 goes back inside the device to the very first software that runs: the bootloader, and the tiny text prompt it can give you.</p>
+
+<nav class="lessons">
+<a href="/lessons/08-processes-and-services.html">← Part 8: Processes &amp; Services</a>
+<a href="/lessons/10-bootloaders.html">Part 10: Bootloaders → </a>
+</nav>
+
+<script src="/js/quiz.js" defer></script>
+</body>
+</html>

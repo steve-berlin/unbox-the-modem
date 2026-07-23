@@ -40,7 +40,8 @@ crumb → `<h1>` + lesson label → TL;DR → simple sections → inline SVG fig
 - Keep the repo backed up to its Git remote.
 - Minimalist first: fewest files, lines, dependencies; then best performance.
 
-## Not yet done
+## State
 
-- No Git remote wired yet (owner will paste a URL). No license chosen.
-- Lessons 3–11 unwritten (roadmap in `index.html`).
+- Remote: https://github.com/steve-berlin/unbox-the-modem (branch `main`).
+- All 20 parts (00-introduction … 19-ethics-safety) + glossary written.
+- No license chosen yet — add one before publishing.

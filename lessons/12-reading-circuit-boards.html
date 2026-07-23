@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Part 12 — Reading Circuit Boards · Nokia G-010G-P course</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<p class="crumb"><a href="/">Course home</a> › Part 12</p>
+
+<h1>Part 12 — Reading Circuit Boards</h1>
+<p><strong>Learning to look at a bare board and recognise its parts.</strong></p>
+
+<hr>
+
+<h2>TL;DR</h2>
+<p>A circuit board is just parts connected by thin copper lines. Once you can name the common parts and read the tiny printed labels, the board stops looking like a maze.</p>
+<p>The most useful trick for a beginner is finding the <strong>ground</strong> point — a shared reference that many things connect to. You find it with a cheap multimeter on an <strong>unpowered</strong> board.</p>
+<p>Never poke around inside a device that is plugged into mains power. Unplug first, every time.</p>
+
+<hr>
+
+<h2>What is on the board?</h2>
+<p>A board (the flat green or blue card inside the device) holds a handful of part types. You will see the same families on almost every board.</p>
+
+<table>
+<tr><th>Part</th><th>What it does</th><th>How it looks</th></tr>
+<tr><td>Chip (IC)</td><td>Does the real work — the processor, memory and storage are all chips.</td><td>A black square or rectangle with many legs.</td></tr>
+<tr><td>Resistor</td><td>Slows down or limits electricity.</td><td>A tiny box, often with a number printed on it.</td></tr>
+<tr><td>Capacitor</td><td>Stores a small amount of energy and smooths it out.</td><td>Small box or a little can.</td></tr>
+<tr><td>Connector</td><td>A place to plug something in — a socket or a row of pins.</td><td>Metal socket, or a header of pins.</td></tr>
+<tr><td>LED</td><td>A little light that shows status.</td><td>Small, often coloured, lights up in use.</td></tr>
+</table>
+
+<p>"IC" is short for <strong>integrated circuit</strong> — engineers' name for a chip. We'll just say "chip."</p>
+
+<hr>
+
+<h2>The printed labels (silkscreen)</h2>
+<p>Look closely and you'll see white printing on the board: little words, numbers and outlines next to each part. This printing is called the <strong>silkscreen</strong>. It is put there to help whoever builds and repairs the board.</p>
+<p>The silkscreen often tells you what a part or a connector is for. Common labels:</p>
+<ul>
+<li><strong>GND</strong> — ground, the shared reference point.</li>
+<li><strong>VCC</strong> or <strong>3V3</strong> or <strong>5V</strong> — a power point, and roughly its voltage.</li>
+<li><strong>TX</strong> and <strong>RX</strong> — the two wires used to send and receive text (you met these in the UART lessons).</li>
+<li><strong>J1, J2, …</strong> — connectors and pin rows are usually numbered with a "J".</li>
+</ul>
+
+<div class="note">
+<p>Silkscreen is a hint, not a promise. Labels can be missing, hidden under a part, or plain wrong. Always confirm with a measurement before you trust one.</p>
+</div>
+
+<hr>
+
+<h2>Test points, pads and traces</h2>
+<p>A <strong>trace</strong> is one of the thin copper lines running across the board. Each trace is a wire — it carries electricity from one part to another. Following a trace with your eye tells you what connects to what.</p>
+<p>A <strong>pad</strong> is a small bare metal spot where a wire or a part leg is attached. A <strong>test point</strong> is a pad the makers left exposed on purpose so they can touch it with a probe during testing. Test points and empty pad rows are often where people attach a UART adapter later.</p>
+
+<figure>
+<svg viewBox="0 0 520 220" role="img" aria-labelledby="fig12-t">
+  <title id="fig12-t">A board sketch: a large chip in the middle, a labelled four-pad header, a resistor, a capacitor and an LED, with copper traces joining them.</title>
+  <rect x="8" y="8" width="504" height="204" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+  <!-- main chip -->
+  <rect x="200" y="70" width="110" height="80" rx="4" fill="none" stroke="currentColor" stroke-width="2"/>
+  <text x="255" y="115" text-anchor="middle" font-size="12" fill="currentColor">chip (IC)</text>
+  <!-- header of 4 pads -->
+  <g fill="none" stroke="currentColor" stroke-width="1.5">
+    <circle cx="60" cy="60" r="8"/><circle cx="60" cy="90" r="8"/>
+    <circle cx="60" cy="120" r="8"/><circle cx="60" cy="150" r="8"/>
+  </g>
+  <g font-size="11" fill="currentColor" text-anchor="start">
+    <text x="76" y="64">GND</text><text x="76" y="94">TX</text>
+    <text x="76" y="124">RX</text><text x="76" y="154">3V3</text>
+  </g>
+  <text x="60" y="40" text-anchor="middle" font-size="11" fill="currentColor">J1 (test pads)</text>
+  <!-- resistor / cap / led -->
+  <rect x="360" y="60" width="40" height="18" rx="3" fill="none" stroke="currentColor"/>
+  <text x="380" y="52" text-anchor="middle" font-size="10" fill="currentColor">resistor</text>
+  <rect x="360" y="100" width="24" height="24" rx="3" fill="none" stroke="currentColor"/>
+  <text x="405" y="116" text-anchor="start" font-size="10" fill="currentColor">capacitor</text>
+  <circle cx="372" cy="160" r="10" fill="none" stroke="currentColor"/>
+  <text x="392" y="164" text-anchor="start" font-size="10" fill="currentColor">LED</text>
+  <!-- traces -->
+  <g stroke="currentColor" stroke-width="1.5" fill="none">
+    <line x1="68" y1="90" x2="200" y2="90"/>
+    <line x1="68" y1="120" x2="200" y2="120"/>
+    <line x1="310" y1="80" x2="360" y2="69"/>
+    <line x1="310" y1="110" x2="360" y2="112"/>
+    <line x1="255" y1="150" x2="372" y2="150"/>
+  </g>
+  <text x="150" y="200" text-anchor="middle" font-size="11" fill="currentColor">thin lines = traces (copper wires)</text>
+</svg>
+<figcaption>A made-up board. Real ones vary — the point is the shapes and labels, not these exact positions.</figcaption>
+</figure>
+
+<hr>
+
+<h2>The multimeter: continuity mode</h2>
+<p>A <strong>multimeter</strong> is a cheap handheld tool that measures electricity. One of its modes is <strong>continuity</strong>: it beeps when its two probes touch two spots that are joined by metal. No beep means they are not directly connected.</p>
+<p>That beep is exactly what you need to explore a board safely, because you use it with the power off. Two everyday uses:</p>
+<ul>
+<li><strong>Find ground.</strong> Ground connects to many places — the metal shield, the outer ring of connectors, the negative side of parts. Put one probe on a known metal shield and hunt for pads that beep against it. Those are ground.</li>
+<li><strong>Find candidate UART pads.</strong> Once you know which pad is ground, the nearby pads in the same little row are good candidates for TX, RX and power. You confirm which is which later, carefully, in the UART lessons — not by guessing.</li>
+</ul>
+
+<div class="warning">
+<p><strong>Safety — read this twice.</strong> A multimeter's continuity mode is for <strong>unplugged, powered-off</strong> boards only. Never probe a board that is connected to mains power (the wall socket). Mains voltage can injure or kill you and can destroy your meter. Unplug the device, wait, and only then touch it. If a board is inside a sealed mains power supply, leave it alone entirely.</p>
+</div>
+
+<hr>
+
+<h2>Examples</h2>
+<ul>
+<li>You see white text "J4" next to a row of four holes. That's connector number four — a likely place engineers plug into.</li>
+<li>A trace runs from a chip leg straight to the outer metal of the Ethernet socket. Following it tells you that chip leg shares that connection.</li>
+<li>You touch one probe to the metal case shield and sweep the other across a pad row. One pad beeps: that pad is ground. The others in the row are worth investigating for TX/RX.</li>
+<li>The silkscreen says "5V" but you have not measured it yet — so you treat it as a guess, not a fact, until the meter agrees.</li>
+</ul>
+
+<hr>
+
+<h2>Quick quiz</h2>
+
+<div class="quiz">
+<p class="q">1. What is the white printing on a board called?</p>
+<ul>
+<li><button data-correct>The silkscreen</button></li>
+<li><button>The trace</button></li>
+<li><button>The bootloader</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">2. A multimeter in continuity mode beeps when…</p>
+<ul>
+<li><button data-correct>Its two probes touch spots that are joined by metal</button></li>
+<li><button>The board is running Linux</button></li>
+<li><button>The fiber is plugged in</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">3. When is it safe to probe a board with a multimeter?</p>
+<ul>
+<li><button data-correct>Only when it is unplugged and powered off</button></li>
+<li><button>Whenever, power does not matter</button></li>
+<li><button>Only while it is plugged into the wall</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<hr>
+
+<h2>Try it yourself (safe)</h2>
+<p>On any <strong>unplugged</strong> board you already own — an old router, a broken toy, or a spare card — set a multimeter to continuity mode (the symbol that looks like sound waves, or a diode). Touch the two probes together first: it should beep, proving the mode works.</p>
+<p>Now put one probe on a large bare metal area such as a connector shell, and gently touch pads nearby with the other probe. Note which ones beep.</p>
+
+<div class="warning">
+<p>Do this only on a device that is <strong>unplugged from the wall</strong>. Never open or probe anything connected to mains power, and never open a sealed power-supply brick.</p>
+</div>
+
+<details>
+<summary>Self-check: what did the pads that beeped have in common?</summary>
+<p>They are all connected to the same ground line. Ground is the shared reference that ties many parts together, which is why so many spots beep against one starting point. Finding ground first makes every later measurement easier.</p>
+</details>
+
+<hr>
+
+<h2>Recap</h2>
+<ul>
+<li>Boards hold chips, resistors, capacitors, connectors and LEDs.</li>
+<li>The white printing is the silkscreen; it hints at what parts do but can be wrong.</li>
+<li>Traces are copper wires; pads and test points are exposed metal spots for probing.</li>
+<li>A multimeter's continuity mode beeps through metal connections — use it only on unplugged boards.</li>
+<li>Finding ground first is the beginner's key to mapping the rest.</li>
+</ul>
+
+<h2>Next</h2>
+<p>Part 13 goes deeper into UART: how bytes actually travel one bit at a time, what "115200 8N1" means, and why voltage must be checked before you connect anything.</p>
+
+<nav class="lessons">
+<a href="/lessons/11-reverse-engineering.html">← Part 11: Reverse Engineering</a>
+<a href="/lessons/13-uart-in-detail.html">Part 13: UART in Detail → </a>
+</nav>
+
+<script src="/js/quiz.js" defer></script>
+</body>
+</html>

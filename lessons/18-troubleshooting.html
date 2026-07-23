@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Part 18 — Troubleshooting Embedded Linux · Nokia G-010G-P course</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<p class="crumb"><a href="/">Course home</a> › Part 18</p>
+
+<h1>Part 18 — Troubleshooting Embedded Linux</h1>
+<p><strong>Stay calm, work a checklist, read the error.</strong></p>
+
+<hr>
+
+<h2>TL;DR</h2>
+<p>Most problems are common and have common causes. Don't panic — work through them one at a time.</p>
+<p>Nothing on the console screen? The usual culprit is the wrong speed setting, or a loose wire.</p>
+<p>Device won't start or keeps restarting? Think power first. And remember: if a change broke it, the answer is often "restore your backup".</p>
+
+<hr>
+
+<h2>Nothing appears on the console</h2>
+<p>When you watch the device start over UART (Part 3), you expect text to scroll by. If the screen stays blank, check these in order:</p>
+<ol>
+<li><strong>Wiring.</strong> Are the connections firm and in the right places? A wire that's fallen out shows exactly this — nothing.</li>
+<li><strong>Ground.</strong> The adapter and the device must share a common ground connection. Without it, you often get silence.</li>
+<li><strong>Speed (baud).</strong> Serial connections only work when both sides agree on a speed, measured in <strong>baud</strong>. If your program is set to the wrong speed, you see nothing or garbage.</li>
+</ol>
+<div class="note">
+<p><strong>Garbled text</strong> — random symbols instead of readable words — almost always means the speed is wrong. Try a different common speed until the text turns readable. That's a normal part of finding the right setting; it harms nothing.</p>
+</div>
+
+<h2>The device won't start, or keeps restarting</h2>
+<p>A device that powers on, gets partway, then starts over again and again is in a <strong>boot loop</strong>. It's stuck repeating the beginning of startup. Common causes:</p>
+<ul>
+<li><strong>Power trouble</strong> (see below) — the most frequent cause by far.</li>
+<li>A recent change to the device's software that left it unable to finish starting.</li>
+<li>A hardware fault, which is less common but possible.</li>
+</ul>
+<p>If a boot loop began right after <em>you</em> changed something, treat your change as the prime suspect.</p>
+
+<h2>Power problems</h2>
+<p>Weak or wrong power causes strange, misleading faults — random restarts, freezes, or nothing at all. Check the supply is the correct one for the device, that the cable and connector are sound, and that you're not powering it from something too weak. Power is cheap to rule out, so rule it out first.</p>
+
+<figure>
+<svg viewBox="0 0 560 300" role="img" aria-labelledby="fig18-t">
+  <title id="fig18-t">A decision tree: is there text on the console? If garbled, fix the speed. If blank, check wiring, ground and speed. If the device restarts, check power, then a recent change, then restore the backup.</title>
+  <g font-size="11" fill="currentColor" text-anchor="middle">
+    <rect x="180" y="10" width="200" height="34" rx="5" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="280" y="31">Any text on the console?</text>
+    <rect x="10" y="90" width="150" height="34" rx="5" fill="none" stroke="currentColor"/>
+    <text x="85" y="111">Garbled → fix speed</text>
+    <rect x="200" y="90" width="160" height="34" rx="5" fill="none" stroke="currentColor"/>
+    <text x="280" y="105">Blank → wiring,</text>
+    <text x="280" y="118">ground, speed</text>
+    <rect x="400" y="90" width="150" height="34" rx="5" fill="none" stroke="currentColor"/>
+    <text x="475" y="105">Restarts →</text>
+    <text x="475" y="118">check power</text>
+    <rect x="360" y="170" width="200" height="34" rx="5" fill="none" stroke="currentColor"/>
+    <text x="460" y="191">Did you just change it?</text>
+    <rect x="360" y="240" width="200" height="40" rx="5" fill="none" stroke="currentColor"/>
+    <text x="460" y="258">Yes → restore your</text>
+    <text x="460" y="272">backup (Part 15)</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1.5" fill="none">
+    <line x1="230" y1="44" x2="85" y2="88"/>
+    <line x1="280" y1="44" x2="280" y2="88"/>
+    <line x1="330" y1="44" x2="475" y2="88"/>
+    <line x1="475" y1="124" x2="465" y2="168"/>
+    <line x1="460" y1="204" x2="460" y2="238"/>
+  </g>
+</svg>
+<figcaption>Follow the branch that matches your symptom.</figcaption>
+</figure>
+
+<h2>Reading an error instead of fearing it</h2>
+<p>An error message is not an insult — it's a clue, often the best one you have. When you see one:</p>
+<ul>
+<li>Read it slowly, word by word. Ordinary words in it usually mean what they say.</li>
+<li>Note the <em>last</em> thing that worked before the error. The trouble is usually right after it.</li>
+<li>Copy the exact wording and search for it. Someone has almost always seen it before.</li>
+</ul>
+
+<h2>When the answer is "restore your backup"</h2>
+<p>If the device stopped starting right after a change you made to its storage, the calm fix is to write your backup (from Part 15) back over the storage. That returns the device to the known-good state you saved. If even that won't run, the bootloader itself often offers a recovery path — Part 10 covered reaching and using it.</p>
+<div class="note">
+<p>This is exactly why the course insisted on backups <em>before</em> any change. A backup turns a scary "it won't start" into a routine "restore and try again".</p>
+</div>
+
+<hr>
+
+<h2>Examples</h2>
+<ul>
+<li>Console shows <code>�����</code> nonsense. You switch your program to a different common speed and clean text appears. Wrong baud, now fixed.</li>
+<li>Device restarts every few seconds. You swap in the correct power supply and it boots normally. Power was the cause.</li>
+<li>It stopped booting right after you wrote new software to storage. You restore last week's backup and it starts again.</li>
+</ul>
+
+<hr>
+
+<h2>Quick quiz</h2>
+
+<div class="quiz">
+<p class="q">1. The console shows random garbled symbols. The most likely cause is…</p>
+<ul>
+<li><button data-correct>The wrong speed (baud) setting</button></li>
+<li><button>The device is permanently dead</button></li>
+<li><button>The fiber is unplugged</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">2. A device powers on, gets partway, and restarts over and over. What should you suspect first?</p>
+<ul>
+<li><button data-correct>Power problems</button></li>
+<li><button>The web browser</button></li>
+<li><button>The colour of the case</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">3. It stopped starting right after you changed its software. The calm fix is…</p>
+<ul>
+<li><button data-correct>Restore the backup you made before the change</button></li>
+<li><button>Throw the device away</button></li>
+<li><button>Change more software and hope</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<hr>
+
+<h2>Try it yourself (safe)</h2>
+<p>For each symptom, decide the most likely cause. Answers are hidden below — think first.</p>
+<ol>
+<li>You connected UART and see nothing at all on screen.</li>
+<li>You see steady streams of random symbols.</li>
+<li>The device reboots every couple of seconds and never finishes.</li>
+</ol>
+
+<div class="warning">
+<p>This is a thinking exercise only. Don't power a mains device with its case open, and unplug it before touching any wiring.</p>
+</div>
+
+<details>
+<summary>Show the most likely causes</summary>
+<ol>
+<li>Blank screen: check wiring, a shared ground, then the speed setting.</li>
+<li>Garbled symbols: wrong speed (baud) — try another common speed.</li>
+<li>Constant reboots: power first, then any recent change you made.</li>
+</ol>
+</details>
+
+<hr>
+
+<h2>Recap</h2>
+<ul>
+<li>Work a checklist calmly — most faults are common and known.</li>
+<li>Blank console: wiring, ground, speed. Garbled text: wrong speed.</li>
+<li>Constant restarts (a boot loop): suspect power first.</li>
+<li>An error message is a clue — read it, note the last thing that worked, search it.</li>
+<li>Broke it with a change? Restore your backup (Part 15); recover via the bootloader (Part 10) if needed.</li>
+</ul>
+
+<hr>
+
+<h2>Next</h2>
+<p>Part 19 steps back from the wires: working only on devices you're allowed to, protecting the shared fiber network, and researching responsibly.</p>
+
+<nav class="lessons">
+<a href="/lessons/17-build-small-linux.html">← Part 17: Build a Linux</a>
+<a href="/lessons/19-ethics-safety.html">Part 19: Ethics &amp; Safety → </a>
+</nav>
+
+<script src="/js/quiz.js" defer></script>
+</body>
+</html>

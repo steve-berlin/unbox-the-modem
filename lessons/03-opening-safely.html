@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Part 3 — Opening the Device Safely · Nokia G-010G-P course</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<p class="crumb"><a href="/">Course home</a> › Part 3</p>
+
+<h1>Part 3 — Opening the Device Safely</h1>
+<p><strong>Safety first. Every step here protects you and the device.</strong></p>
+
+<hr>
+
+<h2>TL;DR</h2>
+<p>Always unplug the device before you touch it, and never run a mains-powered device with its case open.</p>
+<p>Static electricity from your body can quietly kill chips — ground yourself before handling the board.</p>
+<p>Use the right tools, never force plastic clips, and take photos and bag the screws as you go.</p>
+<p>First, work out which shape your unit is: some Nokia fiber modems are tiny stick-shaped modules, others are small boxes.</p>
+
+<hr>
+
+<div class="warning">
+<p><strong>Read this before doing anything.</strong> This part is about physical safety. Electricity can hurt you, and both electricity and static can destroy the device. If any step feels unsafe or unclear, stop. Nothing in this course is worth an injury or a dead board.</p>
+</div>
+
+<h2>Unplug before you touch</h2>
+<p>The first rule is the simplest: disconnect power completely before touching the hardware. Pull the power cable out of the wall or the device. Do not just switch it off — physically unplug it.</p>
+<p>Give it a moment after unplugging. Some parts hold a small amount of charge for a few seconds after the power is gone.</p>
+
+<h2>Mains power vs. low voltage</h2>
+<p>"Mains" is the high-voltage electricity from your wall socket. It can injure or kill you. "Low voltage" is the small, safer voltage a device runs on internally, usually delivered by a power adapter that plugs into the wall.</p>
+<p>Many small fiber modems are powered by a low-voltage adapter, which is much safer to work around <em>once unplugged</em>. But you should confirm this for your own unit, not assume it.</p>
+
+<div class="warning">
+<p><strong>Never power a device with the case open</strong> — especially anything connected to mains. Open cases expose live parts you can touch by accident, and bare boards short out easily against tools or your hand. Observe with the case open only while it is <strong>unplugged</strong>.</p>
+</div>
+
+<h2>Static electricity (ESD)</h2>
+<p>Your body builds up static charge just by moving around — the little zap you feel touching a doorknob. That same spark, far too small to feel, can silently damage the delicate chips on a circuit board. This is called <strong>ESD</strong>, short for electrostatic discharge.</p>
+<p>How to avoid it:</p>
+<ul>
+<li>Touch a large bare metal object first to discharge yourself before handling the board.</li>
+<li>Work on a hard, non-carpeted surface; carpet and socks generate lots of static.</li>
+<li>Hold boards by their edges. Avoid touching the metal pins and chips.</li>
+<li>If you do this often, an anti-static wrist strap connected to ground is a cheap, proper fix.</li>
+</ul>
+
+<figure>
+<svg viewBox="0 0 520 210" role="img" aria-labelledby="fig-safe-t">
+  <title id="fig-safe-t">A safe-opening checklist: unplug the power, discharge static by touching metal, use the right tools, and photograph the device before taking screws out.</title>
+  <g font-size="12" fill="currentColor">
+    <text x="20" y="30" font-size="13">Safe-open checklist</text>
+    <rect x="20" y="45" width="20" height="20" rx="3" fill="none" stroke="currentColor" stroke-width="2"/>
+    <line x1="24" y1="55" x2="30" y2="61" stroke="currentColor" stroke-width="2"/>
+    <line x1="30" y1="61" x2="38" y2="49" stroke="currentColor" stroke-width="2"/>
+    <text x="52" y="60">Unplug the power completely</text>
+    <rect x="20" y="80" width="20" height="20" rx="3" fill="none" stroke="currentColor" stroke-width="2"/>
+    <line x1="24" y1="90" x2="30" y2="96" stroke="currentColor" stroke-width="2"/>
+    <line x1="30" y1="96" x2="38" y2="84" stroke="currentColor" stroke-width="2"/>
+    <text x="52" y="95">Touch bare metal to discharge static</text>
+    <rect x="20" y="115" width="20" height="20" rx="3" fill="none" stroke="currentColor" stroke-width="2"/>
+    <line x1="24" y1="125" x2="30" y2="131" stroke="currentColor" stroke-width="2"/>
+    <line x1="30" y1="131" x2="38" y2="119" stroke="currentColor" stroke-width="2"/>
+    <text x="52" y="130">Use plastic pry tools and the right screwdriver</text>
+    <rect x="20" y="150" width="20" height="20" rx="3" fill="none" stroke="currentColor" stroke-width="2"/>
+    <line x1="24" y1="160" x2="30" y2="166" stroke="currentColor" stroke-width="2"/>
+    <line x1="30" y1="166" x2="38" y2="154" stroke="currentColor" stroke-width="2"/>
+    <text x="52" y="165">Photograph it and bag the screws</text>
+    <rect x="20" y="185" width="20" height="20" rx="3" fill="none" stroke="currentColor" stroke-width="2"/>
+    <line x1="24" y1="195" x2="30" y2="201" stroke="currentColor" stroke-width="2"/>
+    <line x1="30" y1="201" x2="38" y2="189" stroke="currentColor" stroke-width="2"/>
+    <text x="52" y="200">Never force clips — if it resists, look for a hidden screw</text>
+  </g>
+</svg>
+<figcaption>Work top to bottom. If you can't tick a box, don't move on.</figcaption>
+</figure>
+
+<h2>The right tools</h2>
+<ul>
+<li><strong>Plastic pry tools</strong> (sometimes called spudgers) to separate clip-together cases without gouging or cracking them.</li>
+<li><strong>The correct screwdriver</strong> — one that fits the screw head snugly. A wrong-size driver strips screws and slips into the board.</li>
+<li><strong>Good light and a clear space</strong> so you can see clips and small screws.</li>
+<li>Small bags or a compartment tray for screws, and your phone for photos.</li>
+</ul>
+<div class="note">
+<p>Never force anything. Plastic clips give way with gentle, even pressure. If a case fights you, there is almost always a hidden screw — often under a sticker or a rubber foot. Forcing it snaps clips you cannot easily replace.</p>
+</div>
+
+<h2>Take photos, bag the screws</h2>
+<p>Before and during disassembly, photograph each step: the outside, each screw location, each cable before you unplug it. Screws from different spots are often different lengths; keep them grouped by where they came from. This turns reassembly from a guessing game into simply running the photos backward.</p>
+
+<h2>Which shape is your unit?</h2>
+<p>Nokia makes fiber modems in more than one physical form. Some are tiny <strong>stick-shaped modules</strong> — an "SFP stick" that plugs directly into a port on a router, roughly the size of a large USB stick. Others are small self-contained <strong>boxes</strong> with their own case and ports.</p>
+<p>These open very differently, and a stick module may barely open at all. So before choosing tools, identify <em>your</em> form factor: look at its size, shape, and how it connects. Match your approach to what you actually have in your hand.</p>
+
+<hr>
+
+<h2>Examples</h2>
+<p><strong>The hidden screw.</strong> A box won't come apart no matter how you pry. You peel back a rubber foot and there's the screw you missed. Two seconds with the right driver and it opens cleanly — no cracked clips.</p>
+<p><strong>The winter zap.</strong> On a dry day you shuffle across carpet, then reach for a bare board. Touching a metal radiator first drains that charge harmlessly, so it never reaches the chips.</p>
+<p><strong>The reassembly rescue.</strong> A week later you've forgotten which screw went where. Your photos show every screw in place, and your labelled bags match — reassembly is just the photos in reverse.</p>
+
+<hr>
+
+<h2>Quick quiz</h2>
+
+<div class="quiz">
+<p class="q">1. What must you always do before touching the hardware?</p>
+<ul>
+<li><button data-correct>Unplug the power completely</button></li>
+<li><button>Turn the room lights off</button></li>
+<li><button>Connect it to the Internet</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">2. Why discharge static before handling a board?</p>
+<ul>
+<li><button data-correct>A tiny spark you can't even feel can silently damage the chips</button></li>
+<li><button>It makes the device run faster</button></li>
+<li><button>It charges the battery</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">3. A case won't open even with gentle prying. What's the smart move?</p>
+<ul>
+<li><button data-correct>Stop and look for a hidden screw under a foot or sticker</button></li>
+<li><button>Force it hard until the clips snap</button></li>
+<li><button>Power it on to loosen it</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<hr>
+
+<h2>Try it yourself (safe)</h2>
+<ol>
+<li>Inspect the outside of your device. Identify its form factor: is it a tiny stick-shaped module, or a self-contained box?</li>
+<li>Find how it would open: spot the screws, the seams, and any clips. Check under rubber feet and stickers for hidden screws — but don't remove anything yet.</li>
+<li>Photograph it from several angles. These become your "before" pictures.</li>
+</ol>
+
+<div class="warning">
+<p>Only actually open it if it is <strong>low-voltage and unplugged</strong>, and you are comfortable doing so. If it plugs straight into mains, or you're unsure, leave it closed and just study the outside. Understanding comes before opening.</p>
+</div>
+
+<details>
+<summary>Self-check: why never power a device with the case open?</summary>
+<p>An open case exposes live parts you could touch by accident, and a bare board shorts out easily against a tool or your hand. Both risk hurting you and destroying the device. Observe with the case open only while it is unplugged.</p>
+</details>
+
+<hr>
+
+<h2>Recap</h2>
+<ul>
+<li>Unplug completely before touching anything; never power a device with the case open.</li>
+<li>Mains voltage is dangerous; low voltage is safer, but confirm which yours uses.</li>
+<li>Static (ESD) can silently kill chips — discharge yourself and hold boards by the edges.</li>
+<li>Use plastic pry tools and the right screwdriver; never force clips.</li>
+<li>Take photos and bag screws so reassembly is just the process in reverse.</li>
+<li>Identify your unit's form factor — stick module or box — before choosing an approach.</li>
+</ul>
+
+<hr>
+
+<h2>Next</h2>
+<p>Part 4 looks at the main chips on the board — what each one does, and how to read their markings and look them up for yourself.</p>
+
+<nav class="lessons">
+<a href="/lessons/02-uart-hidden-console.html">← Part 2: UART</a>
+<a href="/lessons/04-identifying-chips.html">Part 4: Main Chips → </a>
+</nav>
+
+<script src="/js/quiz.js" defer></script>
+</body>
+</html>

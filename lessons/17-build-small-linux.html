@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Part 17 — Building a Small Embedded Linux System · Nokia G-010G-P course</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<p class="crumb"><a href="/">Course home</a> › Part 17</p>
+
+<h1>Part 17 — Building a Small Embedded Linux System</h1>
+<p><strong>The three pieces every working system needs — and how to try one safely.</strong></p>
+
+<hr>
+
+<h2>TL;DR</h2>
+<p>A working Linux system is really just three pieces: a small startup program, the Linux core itself, and a set of files and programs to run.</p>
+<p>You don't have to build each piece by hand. Ready-made tools assemble them for you.</p>
+<p>And you can <strong>practise on your PC</strong> using an emulator — a program that pretends to be a device — so you never risk your real one.</p>
+
+<hr>
+
+<h2>The three pieces</h2>
+<p>Whether it's a giant server or a tiny fiber modem, a Linux system needs the same three parts working together:</p>
+<table>
+<tr><th>Piece</th><th>What it does</th></tr>
+<tr><td>Bootloader</td><td>The small startup program that runs first and loads Linux. (You met this back in Part 2 — the "starter motor".)</td></tr>
+<tr><td>The Linux core</td><td>The operating system itself: it manages the processor, memory, storage and network hardware.</td></tr>
+<tr><td>Root file system</td><td>The set of programs, settings and files the system runs once Linux is up. Think of it as everything <em>on</em> the disk that isn't Linux itself.</td></tr>
+</table>
+<p>The third one has a name worth knowing: the <strong>root file system</strong>. It's simply the collection of folders and files — commands, settings, startup scripts — that a running system uses. Without it, Linux boots and then has nothing to do.</p>
+
+<figure>
+<svg viewBox="0 0 520 200" role="img" aria-labelledby="fig17-t">
+  <title id="fig17-t">Three stacked pieces — bootloader, the Linux core, and root file system — combine into one running system.</title>
+  <g font-size="12" fill="currentColor" text-anchor="middle">
+    <rect x="20" y="20" width="200" height="40" rx="5" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="120" y="45">Bootloader</text>
+    <rect x="20" y="75" width="200" height="40" rx="5" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="120" y="100">The Linux core</text>
+    <rect x="20" y="130" width="200" height="40" rx="5" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="120" y="155">Root file system</text>
+    <rect x="330" y="75" width="170" height="50" rx="8" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="415" y="97">a running</text>
+    <text x="415" y="114">Linux system</text>
+  </g>
+  <g stroke="currentColor" stroke-width="2">
+    <line x1="220" y1="95" x2="326" y2="100"/>
+    <polygon points="328,100 320,96 320,104" fill="currentColor" stroke="none"/>
+  </g>
+</svg>
+<figcaption>Stack the three pieces and you get a system that actually runs.</figcaption>
+</figure>
+
+<h2>Tools that assemble the pieces for you</h2>
+<p>Putting these three pieces together by hand is a lot of fiddly work. So most people use a tool that does the heavy lifting:</p>
+<ul>
+<li><strong>Buildroot</strong> — a simpler tool aimed at small, tidy systems. Good for learning.</li>
+<li><strong>Yocto</strong> — a larger, more powerful tool used by many companies. More capable, but heavier to learn.</li>
+</ul>
+<p>Both take your choices and cross-compile (Part 16) all three pieces for a target device.</p>
+
+<h2>The tiny all-in-one toolbox: BusyBox</h2>
+<p>A normal Linux system has hundreds of separate small commands. On a device short on storage, that's wasteful. <strong>BusyBox</strong> squeezes many of the most common commands into one small program. Many embedded devices — quite possibly the kind you're studying — use it to keep the root file system tiny. You'll often spot the name when you explore a device's files.</p>
+
+<div class="note">
+<p>You don't need to <em>use</em> Buildroot, Yocto or BusyBox to finish this course. The point is to recognise the names and know what job each does when you meet them.</p>
+</div>
+
+<hr>
+
+<h2>The safe way to practise: an emulator</h2>
+<p>When you build a system, you'll want to see if it works — <em>without</em> risking a real device. The safe answer is an <strong>emulator</strong>: a program on your PC that imitates a device, so your built system runs in a window instead of on real hardware.</p>
+<p>The common one is <strong>QEMU</strong>. It can pretend to be an ARM or MIPS machine on your ordinary PC. If your built system crashes inside QEMU, you just close the window — nothing physical is harmed, and there's nothing to recover.</p>
+
+<hr>
+
+<h2>Examples</h2>
+<ul>
+<li>A hobbyist uses Buildroot to make a minimal ARM system, runs it in QEMU, sees it boot to a prompt, and only later tries it on real hardware.</li>
+<li>You open a device's files (from a backup made in Part 15) and notice almost every command points at a single <code>busybox</code> program — that's the all-in-one toolbox at work.</li>
+<li>A company uses Yocto to build the exact software that ships inside a product, cross-compiled on fast build servers.</li>
+</ul>
+
+<hr>
+
+<h2>Quick quiz</h2>
+
+<div class="quiz">
+<p class="q">1. Which three pieces make up a working Linux system?</p>
+<ul>
+<li><button data-correct>A bootloader, the Linux core, and a root file system</button></li>
+<li><button>A monitor, a keyboard, and a mouse</button></li>
+<li><button>Three separate processors</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">2. What is the safest place to test a system you just built?</p>
+<ul>
+<li><button data-correct>An emulator like QEMU on your PC</button></li>
+<li><button>Straight onto the real device</button></li>
+<li><button>You can't test it at all</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">3. What is BusyBox?</p>
+<ul>
+<li><button data-correct>One small program holding many common commands</button></li>
+<li><button>A brand of fiber cable</button></li>
+<li><button>A type of bootloader</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<hr>
+
+<h2>Try it yourself (safe)</h2>
+<ol>
+<li>From memory, name the three pieces a working system needs. Then check yourself against the table above.</li>
+<li>Optional and still safe: read about running a <em>prebuilt</em> demo image in QEMU on your PC. Buildroot and QEMU both publish beginner guides. Running one in an emulator touches only your PC.</li>
+</ol>
+
+<div class="warning">
+<p>Keep all practice inside the emulator on your PC. Do <strong>not</strong> write any homemade or experimental system onto the real device — that's how a working unit stops starting. The real hardware comes much later, and only after backups.</p>
+</div>
+
+<details>
+<summary>Self-check: which of the three pieces is "everything on the disk that isn't Linux itself"?</summary>
+<p>The root file system — the programs, settings and files the system runs once Linux is up.</p>
+</details>
+
+<hr>
+
+<h2>Recap</h2>
+<ul>
+<li>A working system = bootloader + the Linux core + a root file system.</li>
+<li>Buildroot and Yocto assemble those pieces for you.</li>
+<li>BusyBox packs many common commands into one small program.</li>
+<li>An emulator (QEMU) lets you test on your PC with zero risk to real hardware.</li>
+</ul>
+
+<hr>
+
+<h2>Next</h2>
+<p>Part 18 stays calm when things go wrong: a simple checklist for the most common embedded-Linux problems, and how to read an error instead of fearing it.</p>
+
+<nav class="lessons">
+<a href="/lessons/16-cross-compiling.html">← Part 16: Cross-Compiling</a>
+<a href="/lessons/18-troubleshooting.html">Part 18: Troubleshooting → </a>
+</nav>
+
+<script src="/js/quiz.js" defer></script>
+</body>
+</html>

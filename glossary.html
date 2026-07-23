@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Glossary · Nokia G-010G-P course</title>
+<meta name="description" content="Every technical word in the Unbox the Modem course, defined in plain English.">
 <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -11,38 +12,142 @@
 <p class="crumb"><a href="/">Course home</a> › Glossary</p>
 
 <h1>Glossary</h1>
-<p>Every technical word this course uses, in plain English. When a lesson introduces a new word, it's also defined here.</p>
+<p>Every technical word this course uses, in plain English. When a part introduces a new word, it's also defined here. Where a term is jargon we normally avoid (like "firmware" or "ROM"), the plain replacement is given.</p>
 
 <hr>
 
 <table>
-<tr><th>Word</th><th>Plain-English meaning</th></tr>
+<tr><th>Term</th><th>Plain-English meaning</th></tr>
 
-<tr><td>Backup</td><td>A complete copy of the device's storage, saved somewhere safe, so you can restore it if a change goes wrong.</td></tr>
-<tr><td>Boot / booting</td><td>Everything that happens between power-on and Linux being fully up and running.</td></tr>
-<tr><td>Bootloader</td><td>The very first tiny program that runs at power-on. Its job is to find Linux and start it. Like a car's starter motor.</td></tr>
-<tr><td>Brick / bricked</td><td>A device that no longer starts properly after a bad change.</td></tr>
+<tr><td>8N1</td><td>The most common serial setting: 8 data bits, no parity bit, 1 stop bit per byte. You'll usually pick this in your terminal program.</td></tr>
+<tr><td>115200</td><td>A very common serial speed (baud rate). If the text on the console is garbled, the wrong speed is the usual reason.</td></tr>
+<tr><td>Anti-static</td><td>Precautions that stop tiny sparks of static electricity from your body damaging chips. See ESD.</td></tr>
+<tr><td>Architecture (CPU)</td><td>The "machine language" family a processor understands, such as ARM, MIPS or x86. Programs must be built for the right one.</td></tr>
+<tr><td>ARM</td><td>A common processor family in small devices and phones. Often different from the x86 in a desktop PC.</td></tr>
+<tr><td>Backup</td><td>A complete copy of the device's storage, saved somewhere safe, so you can restore it if a change goes wrong. The course's golden rule.</td></tr>
+<tr><td>Baud rate</td><td>How fast bits travel over a serial connection, in bits per second. Both ends must agree (e.g. 115200).</td></tr>
+<tr><td>Binary</td><td>Numbers written with only 0s and 1s — the form computers work in. Also, a ready-to-run program file.</td></tr>
+<tr><td>Bit</td><td>The smallest piece of data: a single 0 or 1.</td></tr>
+<tr><td>Boot / booting</td><td>Everything that happens between power-on and the operating system being fully up and running.</td></tr>
+<tr><td>Boot log</td><td>The stream of text messages a device prints as it starts. You can read it over the console (UART).</td></tr>
+<tr><td>Boot loop</td><td>A fault where the device keeps restarting instead of finishing start-up.</td></tr>
+<tr><td>Bootloader</td><td>The very first tiny program that runs at power-on. Its job is to find the operating system and start it. Like a car's starter motor.</td></tr>
+<tr><td>Brick / bricked</td><td>A device that no longer starts properly after a bad change. A good backup usually prevents this being permanent.</td></tr>
+<tr><td>Buildroot</td><td>A tool that assembles a complete small Linux system (bootloader + core + programs) for you.</td></tr>
+<tr><td>BusyBox</td><td>A single small program that provides many common Linux commands at once — popular on tiny devices.</td></tr>
+<tr><td>Byte</td><td>A group of 8 bits. Often one character of text.</td></tr>
+<tr><td>Capacitor</td><td>A small board component that stores and smooths electricity.</td></tr>
+<tr><td>Checksum</td><td>A short "fingerprint" number calculated from a file. If two copies have the same checksum, they match exactly. Used to verify backups.</td></tr>
+<tr><td>Chip</td><td>A small black component that holds an electronic circuit — the processor, memory, and storage are all chips. See IC.</td></tr>
+<tr><td>Command line</td><td>A text way of controlling a computer by typing commands, instead of clicking.</td></tr>
+<tr><td>Compiling</td><td>Turning human-written source code into a program the machine can actually run.</td></tr>
+<tr><td>Configuration</td><td>The device's settings: passwords, network names, provider data, and so on.</td></tr>
+<tr><td>Connector</td><td>A socket or set of pins on a board where a cable or another part plugs in.</td></tr>
+<tr><td>Console</td><td>A text window into a device that lets you see its messages and type commands. On this hardware you reach it over UART.</td></tr>
+<tr><td>Continuity</td><td>A multimeter mode that beeps when two points are electrically joined. Used to find ground and trace connections on an unpowered board.</td></tr>
 <tr><td>CPU</td><td>The processor — the "brain" that runs all the software.</td></tr>
-<tr><td>Configuration</td><td>The device's settings: passwords, network names, ISP data, and so on.</td></tr>
+<tr><td>Cross-compiling</td><td>Building a program on your PC that will run on a different kind of processor — the device's.</td></tr>
+<tr><td>Daemon</td><td>A background program that keeps running to provide a service (see Service).</td></tr>
+<tr><td>Datasheet</td><td>The maker's document describing a chip: what it does and what each pin is for. You find it by searching the chip's printed number.</td></tr>
+<tr><td>DHCP</td><td>The service that automatically hands out IP addresses to devices on a network.</td></tr>
+<tr><td>Directory</td><td>A folder in the file system that holds files and other folders.</td></tr>
+<tr><td>Driver</td><td>Software that lets the operating system talk to a specific piece of hardware.</td></tr>
+<tr><td>Embedded system</td><td>A small computer built into a device to do one job — like this fiber modem.</td></tr>
+<tr><td>Emulator</td><td>Software that pretends to be a different computer, so you can safely run and test a system on your PC. See QEMU.</td></tr>
+<tr><td>Environment variable</td><td>A named setting the bootloader or operating system remembers, such as where to find the operating system.</td></tr>
+<tr><td>ESD</td><td>Electrostatic discharge — a tiny static spark that can silently damage chips. Ground yourself before touching a bare board.</td></tr>
 <tr><td>Ethernet</td><td>The common wired-network connection your computer or router uses.</td></tr>
-<tr><td>Flash storage</td><td>The device's permanent storage (like an SSD). Keeps data even with the power off.</td></tr>
-<tr><td>Image</td><td>A complete copy of the storage or operating system, saved as one file.</td></tr>
+<tr><td>Fiber / optical fiber</td><td>A thin glass strand that carries Internet data as pulses of light.</td></tr>
+<tr><td>File</td><td>A named piece of stored data.</td></tr>
+<tr><td>File system</td><td>The way files are organised on storage so they can be found and read.</td></tr>
+<tr><td>Firmware</td><td>Jargon we avoid. Usually means the operating system or the software stored inside the device.</td></tr>
+<tr><td>Flash storage</td><td>The device's permanent storage (like an SSD). Keeps data even with the power off. We usually just say "permanent storage".</td></tr>
+<tr><td>Frame (Ethernet)</td><td>One packaged chunk of data sent over Ethernet, with the sender's and receiver's hardware names attached.</td></tr>
+<tr><td>GND / Ground</td><td>The shared "zero" reference point in a circuit. One of the three UART wires. Always connect it.</td></tr>
+<tr><td>GPON</td><td>The fiber system where many homes share one fiber line back to the provider, using splitters in the street and equipment at both ends.</td></tr>
+<tr><td>Hardware</td><td>The physical parts you can touch: chips, board, connectors, case.</td></tr>
+<tr><td>Hexadecimal</td><td>A number system using 0–9 and A–F, handy for writing bytes compactly.</td></tr>
+<tr><td>Host (cross-compiling)</td><td>The computer you build software on — your PC.</td></tr>
+<tr><td>IC</td><td>Integrated circuit — a complete circuit packed into one chip.</td></tr>
+<tr><td>Image</td><td>Jargon we avoid. Means a complete copy of the storage or operating system, saved as one file.</td></tr>
+<tr><td>init</td><td>The very first program the operating system starts; it then starts everything else.</td></tr>
+<tr><td>initramfs</td><td>A small temporary file system loaded into memory early in boot to help get things started.</td></tr>
+<tr><td>IP address</td><td>A device's address on a network, like 192.168.1.10.</td></tr>
+<tr><td>ISP</td><td>Internet Service Provider — the company that supplies your Internet, and often owns the modem.</td></tr>
+<tr><td>JFFS2</td><td>A file system designed to store writable data safely on flash storage.</td></tr>
+<tr><td>Jumper wire</td><td>A short wire with a plug on each end, used to connect an adapter to pins on a board.</td></tr>
+<tr><td>Kernel</td><td>The core of the operating system that manages the hardware and runs the programs.</td></tr>
+<tr><td>LED</td><td>A small light on the device that signals status (power, network, activity).</td></tr>
+<tr><td>Level shifting</td><td>Converting between different voltages (like 5V and 3.3V) so two parts can talk without damage.</td></tr>
 <tr><td>Linux</td><td>The operating system running inside this device — the same family that runs many servers and phones.</td></tr>
-<tr><td>Operating system</td><td>The main software that manages everything and runs the other programs.</td></tr>
-<tr><td>Optical fiber</td><td>A thin glass strand that carries Internet data as pulses of light.</td></tr>
-<tr><td>Partition</td><td>One labelled section of storage. Storage is split into several: bootloader, Linux, settings, and so on.</td></tr>
-<tr><td>RAM</td><td>Fast temporary memory. Linux is copied here to run, and it's wiped when power is removed.</td></tr>
-<tr><td>Reverse engineering</td><td>Working out how something works by examining it, without the maker's design documents.</td></tr>
-<tr><td>Root</td><td>The all-powerful user account in Linux that can change almost anything on the system.</td></tr>
+<tr><td>Logic level</td><td>The voltage a signal uses to mean 0 or 1, commonly 3.3V on these devices. Matching it matters — see voltage.</td></tr>
+<tr><td>MAC address</td><td>A device's built-in hardware name on a network, unique to that network part.</td></tr>
+<tr><td>Mains electricity</td><td>The high-voltage power from a wall socket. Dangerous — never open or probe a mains-powered device while it's plugged in.</td></tr>
+<tr><td>minicom</td><td>A terminal program (on Linux) for talking to a device over serial/UART.</td></tr>
+<tr><td>MIPS</td><td>Another processor family common in networking devices, different from x86.</td></tr>
+<tr><td>Mount / mount point</td><td>Attaching a storage area into the file-system tree at a folder so its files become reachable.</td></tr>
+<tr><td>MTD</td><td>The Linux way of presenting the sections (partitions) of flash storage so software can read them.</td></tr>
+<tr><td>Multimeter</td><td>A handheld tool that measures voltage and checks connections (continuity) on a board.</td></tr>
+<tr><td>NAND flash</td><td>A type of permanent storage that packs in lots of data cheaply; common for the main storage.</td></tr>
+<tr><td>NOR flash</td><td>A type of permanent storage that's easy to read directly; often used for the bootloader.</td></tr>
+<tr><td>OLT</td><td>The provider's equipment at the far end of the fiber that serves many homes at once.</td></tr>
+<tr><td>ONT</td><td>Optical Network Terminal — the device at your end of the fiber. The Nokia G-010G-P is one.</td></tr>
+<tr><td>Operating system</td><td>The main software that manages everything and runs the other programs. Here, that's Linux.</td></tr>
+<tr><td>Overlay file system</td><td>A trick that stacks a small writable layer on top of a read-only base, so the base stays safe.</td></tr>
+<tr><td>Partition</td><td>One labelled section of storage. Storage is split into several: bootloader, operating system, settings, and so on.</td></tr>
+<tr><td>PCB</td><td>Printed circuit board — the flat board the chips and parts are mounted on.</td></tr>
+<tr><td>Permission / ownership</td><td>The rule that you only work on a device you own or are clearly allowed to. See Part 19.</td></tr>
+<tr><td>PHY</td><td>The chip that physically sends and receives network signals (for example over Ethernet).</td></tr>
+<tr><td>PID</td><td>Process ID — the number Linux gives each running program.</td></tr>
+<tr><td>Pinout</td><td>A map of which pin on a chip or connector does what.</td></tr>
+<tr><td>Power supply</td><td>The part that turns wall power into the low voltages the board needs.</td></tr>
+<tr><td>Process</td><td>A program that is currently running. Each has a PID.</td></tr>
+<tr><td>PuTTY</td><td>A terminal program (on Windows) for serial/UART and network connections.</td></tr>
+<tr><td>QEMU</td><td>Popular emulator software that lets you run a built Linux system on your PC instead of risking the real device.</td></tr>
+<tr><td>RAM</td><td>Fast temporary memory. The operating system is copied here to run, and it's wiped when power is removed.</td></tr>
+<tr><td>Read-only</td><td>Storage or files that can be read but not changed. The operating system area is often kept read-only for safety.</td></tr>
+<tr><td>Recovery</td><td>A built-in way to restore a device that won't start properly, often through the bootloader.</td></tr>
+<tr><td>Resistor</td><td>A small board component that limits electrical current.</td></tr>
+<tr><td>Responsible disclosure</td><td>Reporting a security problem privately to whoever can fix it, before telling the world.</td></tr>
+<tr><td>Reverse engineering</td><td>Working out how something works by examining it, without the maker's design documents. Observe, don't guess.</td></tr>
+<tr><td>RJ45</td><td>The rectangular plug and socket used for an Ethernet cable.</td></tr>
+<tr><td>ROM</td><td>Jargon we avoid. People often mean the operating system stored in flash — say that instead, unless it's truly read-only memory.</td></tr>
+<tr><td>Root (user)</td><td>The all-powerful user account in Linux that can change almost anything on the system.</td></tr>
+<tr><td>Root file system</td><td>The main set of folders and files the operating system runs from. Note: this is different from the root user.</td></tr>
+<tr><td>RX</td><td>The "receive" wire in a serial link — the side that listens. See TX.</td></tr>
+<tr><td>screen</td><td>A Linux program that, among other things, can act as a terminal for serial/UART.</td></tr>
+<tr><td>Serial communication</td><td>Sending data one bit after another over a wire — how UART works.</td></tr>
+<tr><td>Service</td><td>A background program that keeps running to do a job, like handling the network. Also called a daemon.</td></tr>
+<tr><td>Silkscreen</td><td>The printed white text and outlines on a circuit board that label parts and pins.</td></tr>
+<tr><td>SoC</td><td>System on a chip — one chip that combines the processor and many other parts of a computer.</td></tr>
+<tr><td>Source code</td><td>The human-readable instructions a program is written in, before it's compiled.</td></tr>
+<tr><td>Splitter (GPON)</td><td>A passive device in the street that shares one fiber among several homes.</td></tr>
+<tr><td>SquashFS</td><td>A read-only, compressed file system often used to hold the operating system on small devices.</td></tr>
 <tr><td>SSH</td><td>A secure way to reach and control a Linux system over a network.</td></tr>
+<tr><td>Static electricity</td><td>Stored electrical charge on your body that can spark and damage chips. See ESD / anti-static.</td></tr>
+<tr><td>Storage</td><td>Where data is kept. Permanent storage keeps it with the power off; RAM does not.</td></tr>
+<tr><td>Target (device)</td><td>In cross-compiling, the machine your program is built to run on — the modem.</td></tr>
 <tr><td>Telnet</td><td>An older, unencrypted way to reach a Linux system over a network.</td></tr>
-<tr><td>UART</td><td>A simple wired connection engineers use to watch and talk to the device as it starts up. Covered in Lesson 3.</td></tr>
-<tr><td>U-Boot</td><td>A bootloader used by many embedded Linux devices (see Bootloader).</td></tr>
+<tr><td>Terminal program</td><td>Software on your PC (screen, minicom, PuTTY) that shows the device's console and sends your typing.</td></tr>
+<tr><td>Test point</td><td>A small exposed pad on a board meant for touching a probe or wire.</td></tr>
+<tr><td>tmpfs</td><td>A file system that lives only in memory and disappears when power is removed.</td></tr>
+<tr><td>Toolchain</td><td>The set of tools that together turn source code into a program for a particular processor.</td></tr>
+<tr><td>Trace</td><td>A thin copper line on a circuit board that carries a signal between parts.</td></tr>
+<tr><td>TX</td><td>The "transmit" wire in a serial link — the side that talks. Connect one side's TX to the other side's RX.</td></tr>
+<tr><td>UART</td><td>A simple wired link over a few wires (TX, RX, GND) that lets you watch a device's messages and type commands as it runs.</td></tr>
+<tr><td>UBIFS</td><td>A modern file system for storing writable data reliably on flash storage.</td></tr>
+<tr><td>U-Boot</td><td>A bootloader used by many embedded Linux devices; it often gives a small text prompt on the console.</td></tr>
+<tr><td>uname</td><td>A Linux command that reports system details, including the processor type (`uname -m`).</td></tr>
+<tr><td>USB-to-UART adapter</td><td>A small board that connects your PC's USB port to a device's UART pins so you can use the console.</td></tr>
+<tr><td>Voltage</td><td>The "pressure" of electricity. Matching voltages (often 3.3V here) matters — the wrong one can damage the device.</td></tr>
+<tr><td>x86</td><td>The processor family in most desktop and laptop PCs — usually different from the device's.</td></tr>
+<tr><td>Yocto</td><td>A larger, flexible tool for building a custom embedded Linux system.</td></tr>
+
 </table>
 
 <nav class="lessons">
-<a href="/">← Course home</a>
-<span></span>
+<a href="/lessons/19-ethics-safety.html">← Part 19: Ethics &amp; Safety</a>
+<a href="/">Course home →</a>
 </nav>
 
 </body>

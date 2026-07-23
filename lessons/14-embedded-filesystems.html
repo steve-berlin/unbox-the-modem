@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Part 14 — Common File Systems in Embedded Linux · Nokia G-010G-P course</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<p class="crumb"><a href="/">Course home</a> › Part 14</p>
+
+<h1>Part 14 — Common File Systems Used in Embedded Linux</h1>
+<p><strong>How small devices arrange their files, and why the important part is kept read-only.</strong></p>
+
+<hr>
+
+<h2>TL;DR</h2>
+<p>A <strong>file system</strong> is just a way of organising files on storage so the device can find them.</p>
+<p>Small devices usually use a few different ones at once: a locked-down, squeezed one for the operating system, a writable one for your settings, and a memory-only one for scratch data that vanishes when the power goes.</p>
+<p>The operating system is kept <strong>read-only</strong> on purpose — so it can't get scrambled, and the device stays reliable.</p>
+
+<hr>
+
+<h2>What is a file system?</h2>
+<p>Storage on its own is just a big space to keep data. A <strong>file system</strong> is the filing method laid over that space: it decides how files are named, where each one lives, and how folders are arranged. Without one, the device would just see a blob and have no way to find anything.</p>
+<p>Your PC uses a file system too. Small "embedded" devices like this one are unusual only in that they often use <strong>several at the same time</strong>, each chosen for a different job.</p>
+
+<hr>
+
+<h2>The common ones and their jobs</h2>
+<table>
+<tr><th>File system</th><th>Job in plain words</th><th>Writable?</th></tr>
+<tr><td><strong>SquashFS</strong></td><td>Holds the operating system, squeezed small and locked.</td><td>No — read-only.</td></tr>
+<tr><td><strong>JFFS2 / UBIFS</strong></td><td>Holds your settings and anything the device needs to remember.</td><td>Yes — writable.</td></tr>
+<tr><td><strong>tmpfs / initramfs</strong></td><td>Scratch space that lives only in memory.</td><td>Yes, but vanishes on reboot.</td></tr>
+</table>
+
+<h3>The read-only, squeezed one (SquashFS)</h3>
+<p>SquashFS holds the operating system. Two things make it a good fit: it is <strong>compressed</strong> (squeezed small so it fits in limited storage), and it is <strong>read-only</strong> (nothing can change it while the device runs). A locked operating system can't be corrupted by a crash or a mistake.</p>
+
+<h3>The writable ones (JFFS2 and UBIFS)</h3>
+<p>Settings have to change — your Wi-Fi name, passwords, ISP details. Those live on a writable file system. JFFS2 and UBIFS are two common ones built specially for the kind of permanent storage these devices use. You don't need to tell them apart; just know they are the <strong>writable settings area</strong>.</p>
+
+<h3>The memory-only ones (tmpfs and initramfs)</h3>
+<p>Some data is only needed while the device is running — temporary notes, logs in progress, files unpacked during start-up. These sit in <strong>tmpfs</strong> or <strong>initramfs</strong>, which live entirely in RAM. Because RAM is wiped when power is removed, everything here <strong>disappears on reboot</strong>. That's a feature, not a bug: it keeps clutter from piling up.</p>
+
+<hr>
+
+<h2>Stacking a writable layer on a read-only base (overlay)</h2>
+<p>Here's the clever trick that ties it together. If the operating system is read-only, how can the device ever save a changed file? The answer is an <strong>overlay</strong>: a thin writable layer laid on top of the locked base.</p>
+<p>You see one combined set of files. Reads come from the locked base underneath; any change is written to the thin layer on top, which quietly hides the original. The base is never touched, yet things still appear to change. It's like a sheet of clear plastic over a printed page — you can write on the plastic without altering the page below.</p>
+
+<figure>
+<svg viewBox="0 0 480 220" role="img" aria-labelledby="fig14-t">
+  <title id="fig14-t">Two stacked layers: a thin writable layer on top and a wide read-only base underneath, combining into one view of the files.</title>
+  <!-- writable layer -->
+  <rect x="60" y="40" width="360" height="46" rx="6" fill="none" stroke="currentColor" stroke-width="2"/>
+  <text x="240" y="68" text-anchor="middle" font-size="12" fill="currentColor">writable layer — your changes (small)</text>
+  <!-- read only base -->
+  <rect x="60" y="110" width="360" height="66" rx="6" fill="none" stroke="currentColor" stroke-width="2"/>
+  <text x="240" y="140" text-anchor="middle" font-size="12" fill="currentColor">read-only base — the operating system</text>
+  <text x="240" y="160" text-anchor="middle" font-size="11" fill="currentColor">(SquashFS, locked and squeezed)</text>
+  <!-- combine arrow -->
+  <line x1="240" y1="86" x2="240" y2="110" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="240" y="200" text-anchor="middle" font-size="11" fill="currentColor">you see them combined as one set of files</text>
+</svg>
+<figcaption>Reads come from the locked base; changes land on the thin top layer. The base is never modified.</figcaption>
+</figure>
+
+<hr>
+
+<h2>Why keep the operating system read-only?</h2>
+<p>It comes down to safety and reliability:</p>
+<ul>
+<li><strong>It can't be corrupted.</strong> A power cut or crash while writing can't scramble a part that is never written.</li>
+<li><strong>It always starts the same way.</strong> The base is identical every boot, so behaviour is predictable.</li>
+<li><strong>Mistakes are contained.</strong> A bad change lands on the throwaway layer, not the operating system.</li>
+<li><strong>It saves space.</strong> Being compressed, the locked base fits in the device's small storage.</li>
+</ul>
+
+<hr>
+
+<h2>Examples</h2>
+<ul>
+<li>You change the Wi-Fi name. The new value is written to the JFFS2/UBIFS settings area, so it survives a reboot.</li>
+<li>The device unpacks some helper files during start-up into tmpfs; after a reboot they're gone and get unpacked fresh again.</li>
+<li>You edit a system file that lives on the read-only base. Thanks to the overlay, your edit lands on the top layer — but a factory reset that clears that layer brings the original straight back.</li>
+</ul>
+
+<hr>
+
+<h2>Quick quiz</h2>
+
+<div class="quiz">
+<p class="q">1. Which file system holds the operating system and is locked so nothing can change it?</p>
+<ul>
+<li><button data-correct>SquashFS (read-only, compressed)</button></li>
+<li><button>tmpfs (memory only)</button></li>
+<li><button>The bootloader</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">2. What happens to data stored in tmpfs when the device reboots?</p>
+<ul>
+<li><button data-correct>It disappears — tmpfs lives only in memory</button></li>
+<li><button>It is saved forever</button></li>
+<li><button>It becomes the operating system</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">3. Why is the operating system kept read-only?</p>
+<ul>
+<li><button data-correct>So it can't be corrupted and the device stays reliable</button></li>
+<li><button>To make the device slower</button></li>
+<li><button>So you can never change any setting</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<hr>
+
+<h2>Try it yourself (safe)</h2>
+<p>No device needed — just match each file system to its job. Think about which needs to survive a reboot and which does not.</p>
+<ol>
+<li>SquashFS</li>
+<li>JFFS2 / UBIFS</li>
+<li>tmpfs / initramfs</li>
+</ol>
+<p>Jobs: (a) holds your saved settings; (b) holds the locked operating system; (c) scratch space that vanishes on reboot.</p>
+
+<details>
+<summary>Show the answers</summary>
+<p><strong>1 → b:</strong> SquashFS holds the locked, read-only operating system.</p>
+<p><strong>2 → a:</strong> JFFS2 / UBIFS hold your writable, saved settings.</p>
+<p><strong>3 → c:</strong> tmpfs / initramfs are memory-only scratch space that disappears on reboot.</p>
+</details>
+
+<div class="note">
+<p>Exactly which file systems a given device uses, and how its storage is divided, is something you read off <em>your own unit</em> later — not something to assume. This lesson teaches the general kinds so those readings make sense.</p>
+</div>
+
+<hr>
+
+<h2>Recap</h2>
+<ul>
+<li>A file system is how files are organised on storage.</li>
+<li>Small devices use several at once, each for a different job.</li>
+<li>SquashFS: read-only, compressed, holds the operating system.</li>
+<li>JFFS2 / UBIFS: writable, hold your settings.</li>
+<li>tmpfs / initramfs: memory-only, vanish on reboot.</li>
+<li>An overlay stacks a thin writable layer on the locked base, so things can change without touching the operating system.</li>
+<li>Keeping the operating system read-only makes the device safer and more reliable.</li>
+</ul>
+
+<h2>Next</h2>
+<p>Part 15 covers the course's golden rule: always make a complete, verified copy of the device's storage before you change anything.</p>
+
+<nav class="lessons">
+<a href="/lessons/13-uart-in-detail.html">← Part 13: UART in Detail</a>
+<a href="/lessons/15-backups.html">Part 15: Backups → </a>
+</nav>
+
+<script src="/js/quiz.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Part 7 — Understanding the Linux File System · Nokia G-010G-P course</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<p class="crumb"><a href="/">Course home</a> › Part 7</p>
+
+<h1>Part 7 — Understanding the Linux File System</h1>
+<p><strong>How Linux arranges every file into one big tree of folders.</strong></p>
+
+<hr>
+
+<h2>TL;DR</h2>
+<p>In Linux, every file and folder hangs off one starting point written as a single slash: <code>/</code>. There are no separate drive letters — everything is one tree.</p>
+<p>A handful of folders have fixed jobs: programs, settings, devices, live system info, scratch space, and mount points.</p>
+<p>Linux treats almost everything as if it were a file — even hardware. On small devices, the system folders are often locked as read-only so they cannot be changed by accident.</p>
+
+<hr>
+
+<h2>One tree, starting at <code>/</code></h2>
+<p>On some systems each disk gets its own letter. Linux does it differently: there is a single tree, and it starts at a spot written as one forward slash, <code>/</code>. This is called the <strong>root of the file system</strong> — the base that everything else branches off.</p>
+
+<div class="warning">
+<p><strong>Two different "roots" — do not mix them up.</strong> The <strong>root of the file system</strong> is a <em>place</em>: the top folder, <code>/</code>. The <strong>root user</strong> (from Part 2) is a <em>person</em>: the all-powerful account. Same word, completely different meaning. Here we mean the place.</p>
+</div>
+
+<figure>
+<svg viewBox="0 0 560 220" role="img" aria-labelledby="fig7-t">
+  <title id="fig7-t">A directory tree: the root slash at the top branches down to bin, etc, dev, proc, tmp and mnt folders.</title>
+  <g font-size="12" fill="currentColor" text-anchor="middle">
+    <rect x="250" y="10"  width="60" height="30" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><text x="280" y="30">/</text>
+    <rect x="20"  y="120" width="70" height="30" rx="4" fill="none" stroke="currentColor"/><text x="55"  y="140">/bin</text>
+    <rect x="105" y="120" width="70" height="30" rx="4" fill="none" stroke="currentColor"/><text x="140" y="140">/etc</text>
+    <rect x="190" y="120" width="70" height="30" rx="4" fill="none" stroke="currentColor"/><text x="225" y="140">/dev</text>
+    <rect x="290" y="120" width="80" height="30" rx="4" fill="none" stroke="currentColor"/><text x="330" y="140">/proc</text>
+    <rect x="390" y="120" width="70" height="30" rx="4" fill="none" stroke="currentColor"/><text x="425" y="140">/tmp</text>
+    <rect x="475" y="120" width="70" height="30" rx="4" fill="none" stroke="currentColor"/><text x="510" y="140">/mnt</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1.5">
+    <line x1="280" y1="40" x2="55"  y2="120"/>
+    <line x1="280" y1="40" x2="140" y2="120"/>
+    <line x1="280" y1="40" x2="225" y2="120"/>
+    <line x1="280" y1="40" x2="330" y2="120"/>
+    <line x1="280" y1="40" x2="425" y2="120"/>
+    <line x1="280" y1="40" x2="510" y2="120"/>
+  </g>
+</svg>
+<figcaption>Everything branches from the single root, <code>/</code>. These are some of the folders you'll meet most.</figcaption>
+</figure>
+
+<hr>
+
+<h2>The folders worth knowing</h2>
+<p>Each top folder has a job. You do not need to memorise all of them — these are the ones that come up again and again:</p>
+<table>
+<tr><th>Folder</th><th>What lives there</th></tr>
+<tr><td><code>/bin</code></td><td>Programs — the everyday commands the system can run.</td></tr>
+<tr><td><code>/etc</code></td><td>Settings — plain text configuration files for the system.</td></tr>
+<tr><td><code>/dev</code></td><td>Devices — the hardware, presented as file-like entries.</td></tr>
+<tr><td><code>/proc</code></td><td>Live system info — details about what is running right now.</td></tr>
+<tr><td><code>/tmp</code></td><td>Scratch space — temporary files that can be thrown away.</td></tr>
+<tr><td><code>/mnt</code></td><td>Mount points — where extra storage gets attached to the tree.</td></tr>
+</table>
+
+<h3>What "mount" means</h3>
+<p>Because there are no drive letters, extra storage has to be joined into the one tree at a chosen folder. Attaching it like that is called <strong>mounting</strong>, and the folder where it appears (often under <code>/mnt</code>) is the <strong>mount point</strong>. After mounting, the extra storage just looks like another folder.</p>
+
+<hr>
+
+<h2>"Everything is a file"</h2>
+<p>Linux has a neat trick: it presents almost everything as if it were a file, so the same simple actions — read from it, write to it — work on very different things. A document is a file, of course. But a piece of hardware in <code>/dev</code> also looks like a file, and the live system details in <code>/proc</code> read like files too.</p>
+<p>The payoff: once you know how to read a file, you already know how to peek at hardware and at the running system. One idea, used everywhere.</p>
+
+<hr>
+
+<h2>System folders are often read-only</h2>
+<p>On small devices, the folders holding Linux and its programs are usually set to <strong>read-only</strong>: they can be read but not changed while the device runs. This protects the system — a stray command cannot quietly corrupt it — and it means the operating system starts from a known-good state every time. Scratch areas like <code>/tmp</code> stay writable so programs still have somewhere to work.</p>
+
+<div class="note">
+<p>Read-only system folders are a safety feature, not a fault. If a folder refuses to let you change it, that is often the device protecting itself exactly as intended.</p>
+</div>
+
+<hr>
+
+<h2>Examples</h2>
+<ul>
+<li><strong>The single tree</strong> is like one filing cabinet for the whole building — instead of a separate cabinet per person, there is one, and everything has a labelled drawer inside it.</li>
+<li><strong>/dev as files</strong> is like a light switch on the wall: you do not see the wiring, you just flip a simple control and the hardware responds.</li>
+<li><strong>Read-only system folders</strong> are like a museum display behind glass: you can look all you want, but you cannot rearrange the exhibit by accident.</li>
+</ul>
+
+<hr>
+
+<h2>Quick quiz</h2>
+
+<div class="quiz">
+<p class="q">1. What does the single slash <code>/</code> mean in Linux?</p>
+<ul>
+<li><button data-correct>The root of the file system — the top of the one folder tree</button></li>
+<li><button>The root user's password</button></li>
+<li><button>A broken file</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">2. Which folder holds the system's settings files?</p>
+<ul>
+<li><button data-correct>/etc</button></li>
+<li><button>/tmp</button></li>
+<li><button>/dev</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">3. Why are system folders on small devices often read-only?</p>
+<ul>
+<li><button data-correct>So the operating system can't be changed or corrupted by accident</button></li>
+<li><button>To make the device slower on purpose</button></li>
+<li><button>Because Linux has run out of space</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<hr>
+
+<h2>Try it yourself (safe)</h2>
+<p><strong>If you have a Linux PC</strong> (this course's device is not needed here), open a terminal and type one read-only command:</p>
+<pre>ls /</pre>
+<p><code>ls</code> means "list". This only <em>lists</em> what sits at the root of the file system — it reads, it never changes anything. You should see folder names like <code>bin</code>, <code>etc</code>, <code>dev</code> and others from the table above.</p>
+
+<div class="warning">
+<p>Stick to <code>ls</code> for now. It is a look-only command. Avoid commands that write, move or delete until a later part explains them — and never run commands you do not understand on a device you care about.</p>
+</div>
+
+<p><strong>No Linux PC?</strong> Do the matching exercise instead: <code>/bin</code>, <code>/etc</code>, <code>/dev</code>, <code>/tmp</code> — which one holds programs, which holds settings, which holds hardware, which is scratch space?</p>
+
+<details>
+<summary>Self-check</summary>
+<ul>
+<li><code>ls /</code> lists the top-level folders and changes nothing — safe to run any time.</li>
+<li>Matching: <code>/bin</code> → programs; <code>/etc</code> → settings; <code>/dev</code> → hardware (as files); <code>/tmp</code> → scratch space.</li>
+</ul>
+</details>
+
+<hr>
+
+<h2>Recap</h2>
+<ul>
+<li>Linux has one tree, starting at the root of the file system: <code>/</code>.</li>
+<li>The root of the file system (a place) is not the root user (a person).</li>
+<li>Key folders: <code>/bin</code> programs, <code>/etc</code> settings, <code>/dev</code> devices, <code>/proc</code> live info, <code>/tmp</code> scratch, <code>/mnt</code> mount points.</li>
+<li>Almost everything is presented as a file, so the same simple actions work everywhere.</li>
+<li>On small devices the system folders are often read-only to protect them.</li>
+</ul>
+
+<hr>
+
+<h2>Next</h2>
+<p>Part 8 looks at the programs that are actually running — the processes and background services that keep the device doing its job.</p>
+
+<nav class="lessons">
+<a href="/lessons/06-flash-and-partitions.html">← Part 6: Flash &amp; Partitions</a>
+<a href="/lessons/08-processes-and-services.html">Part 8: Processes &amp; Services → </a>
+</nav>
+
+<script src="/js/quiz.js" defer></script>
+</body>
+</html>

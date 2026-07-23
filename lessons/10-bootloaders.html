@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Part 10 — How Bootloaders Work · Nokia G-010G-P course</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<p class="crumb"><a href="/">Course home</a> › Part 10</p>
+
+<h1>Part 10 — How Bootloaders Work</h1>
+<p><strong>The tiny program that runs before Linux and decides what to start.</strong></p>
+
+<hr>
+
+<h2>TL;DR</h2>
+<p>A <strong>bootloader</strong> is the first software that runs when the device powers on. Its whole job is to find the operating system and start it.</p>
+<p>Many embedded devices use a bootloader called <strong>U-Boot</strong>.</p>
+<p>It often offers a tiny text prompt on the console where you can pause the start-up and type commands. It also keeps a set of settings, and it can help recover a device that won't boot on its own.</p>
+<p>Those same powers make it easy to break things — change its settings only when you understand exactly what you are doing.</p>
+
+<hr>
+
+<h2>What the bootloader is for</h2>
+<p>When you plug the device in, the operating system is not running yet — it is sitting in permanent storage, waiting. Something has to fetch it, put it into memory, and hand control over to it. That something is the <strong>bootloader</strong>. Think of it as the starter motor in a car: it does not drive anywhere itself, but nothing else can start until it has done its one small job.</p>
+<p>Part 2 met this idea in passing. Here we look at it properly.</p>
+
+<h2>U-Boot: a common bootloader</h2>
+<p>There are several bootloaders in the world, but a very common one on small Linux devices is called <strong>U-Boot</strong> ("Universal Boot Loader"). If you ever watch a device start over a console cable, U-Boot is one of the names you are most likely to see scroll past. You should verify which bootloader your own device uses by reading what it prints as it starts — do not assume.</p>
+
+<h2>The tiny text prompt</h2>
+<p>Many bootloaders, U-Boot included, will pause for a moment early in start-up and offer a small <strong>text prompt</strong> on the console — often just a short symbol like <code>=&gt;</code> waiting for you to type. Usually you have only a second or two, and you interrupt the countdown by pressing a key. If you do nothing, the countdown finishes and the device boots normally.</p>
+<p>At that prompt you can type commands: to show settings, to print information about the storage, or to start the operating system manually. It is a separate little world that exists <em>before</em> Linux — Linux is not running yet when you are here.</p>
+
+<h2>Settings the bootloader keeps</h2>
+<p>The bootloader stores a set of its own settings, usually called <strong>environment variables</strong> — simply named values it remembers, such as where to find the operating system or which options to pass it when starting. These are read every time the device boots. Changing one changes how the device starts next time.</p>
+
+<h2>It can also recover a broken device</h2>
+<p>Because the bootloader runs before the operating system, it still works even when the operating system is damaged and will not start. That makes it a lifeline: from the bootloader you can often load a fresh, working copy of the system back onto the device and bring it back to life. This is exactly why the backups this course keeps insisting on matter — the bootloader gives you a place to write a good copy back <em>from</em>.</p>
+
+<figure>
+<svg viewBox="0 0 560 300" role="img" aria-labelledby="fig10-t">
+  <title id="fig10-t">Bootloader decision flow: start, find the operating system, check if it is good; if good run it, if not enter recovery.</title>
+  <g font-size="12" fill="currentColor" text-anchor="middle">
+    <rect x="210" y="12" width="140" height="40" rx="6" fill="none" stroke="currentColor"/><text x="280" y="37">Power on</text>
+    <rect x="200" y="78" width="160" height="40" rx="6" fill="none" stroke="currentColor"/><text x="280" y="103">Find the OS</text>
+    <path d="M280 150 L360 186 L280 222 L200 186 Z" fill="none" stroke="currentColor"/><text x="280" y="182">Is it</text><text x="280" y="196">good?</text>
+    <rect x="392" y="166" width="150" height="40" rx="6" fill="none" stroke="currentColor" stroke-width="2"/><text x="467" y="191">Run the OS</text>
+    <rect x="16" y="166" width="150" height="40" rx="6" fill="none" stroke="currentColor"/><text x="91" y="185">Recover</text><text x="91" y="199" font-size="10">write a good copy</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1.5" fill="currentColor" font-size="11">
+    <line x1="280" y1="52" x2="280" y2="78"/>
+    <line x1="280" y1="118" x2="280" y2="150"/>
+    <line x1="360" y1="186" x2="392" y2="186"/><text x="376" y="178" text-anchor="middle">yes</text>
+    <line x1="200" y1="186" x2="166" y2="186"/><text x="183" y="178" text-anchor="middle">no</text>
+  </g>
+</svg>
+<figcaption>Find the operating system, check it, and either run it or drop into recovery.</figcaption>
+</figure>
+
+<hr>
+
+<h2>Examples</h2>
+<ul>
+<li><strong>The normal case:</strong> you power on, the bootloader counts down for a second, nobody presses a key, and it quietly starts the operating system. You never see it.</li>
+<li><strong>Pausing it:</strong> an engineer watching the console presses a key during the countdown, lands at the <code>=&gt;</code> prompt, and reads out the current settings before letting boot continue.</li>
+<li><strong>A rescue:</strong> a device's operating system is corrupted and won't start. From the bootloader, a technician loads a fresh working copy back onto it, and the device lives again.</li>
+</ul>
+
+<hr>
+
+<h2>Quick quiz</h2>
+
+<div class="quiz">
+<p class="q">1. What is the bootloader's main job?</p>
+<ul>
+<li><button data-correct>To find the operating system and start it</button></li>
+<li><button>To browse the web</button></li>
+<li><button>To hand out IP addresses</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">2. Why can the bootloader help recover a device whose operating system is broken?</p>
+<ul>
+<li><button data-correct>It runs before the operating system, so it still works when the OS won't start</button></li>
+<li><button>It is part of the operating system, so it breaks too</button></li>
+<li><button>It runs only after Linux has fully started</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">3. What are the bootloader's stored settings usually called?</p>
+<ul>
+<li><button data-correct>Environment variables</button></li>
+<li><button>MAC addresses</button></li>
+<li><button>Processes</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<hr>
+
+<h2>Try it yourself (safe)</h2>
+<p>Below is a <strong>SAMPLE — a made-up example, not from any real device</strong>. Read it and work out what the two commands would do. Do <em>not</em> connect to the real device.</p>
+<pre><code>Hit any key to stop autoboot:  0
+=&gt; printenv
+bootcmd=load the operating system, then run it
+bootdelay=2
+=&gt; help
+printenv   - show the stored settings
+boot       - start the operating system now</code></pre>
+
+<div class="warning">
+<p>This is a printed example only. Do not attach a console cable to the fiber device or type anything at its real prompt during this course — pausing or changing a live bootloader can leave a device unable to start.</p>
+</div>
+
+<details>
+<summary>Self-check: what would <code>printenv</code> do, and what would <code>boot</code> do?</summary>
+<p><code>printenv</code> shows the bootloader's stored settings (its environment variables), such as which command it uses to start the operating system. <code>boot</code> tells the bootloader to go ahead and start the operating system now, ending the pause. Neither, in this sample, changes any settings — they read and act, but do not rewrite storage.</p>
+</details>
+
+<hr>
+
+<h2>Recap</h2>
+<ul>
+<li>The bootloader is the first software to run; its job is to find and start the operating system.</li>
+<li>U-Boot is a bootloader common on small Linux devices — verify which one your device uses by reading what it prints.</li>
+<li>It often offers a tiny text prompt where you can pause boot and type commands.</li>
+<li>It keeps its own settings, usually called environment variables.</li>
+<li>Because it runs before the operating system, it can recover a device that won't otherwise start.</li>
+<li>Its power cuts both ways — careless changes to its settings can stop a device from booting.</li>
+</ul>
+
+<hr>
+
+<h2>Next</h2>
+<p>Part 11 turns to the mindset behind all of this: reverse engineering — how to work out how something works by careful observation instead of guessing.</p>
+
+<nav class="lessons">
+<a href="/lessons/09-networking-basics.html">← Part 9: Networking</a>
+<a href="/lessons/11-reverse-engineering.html">Part 11: Reverse Engineering → </a>
+</nav>
+
+<script src="/js/quiz.js" defer></script>
+</body>
+</html>

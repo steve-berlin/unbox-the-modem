@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Part 8 — Processes and Services · Nokia G-010G-P course</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<p class="crumb"><a href="/">Course home</a> › Part 8</p>
+
+<h1>Part 8 — Linux Processes and Services</h1>
+<p><strong>How a running Linux system keeps dozens of programs going at once.</strong></p>
+
+<hr>
+
+<h2>TL;DR</h2>
+<p>A <strong>process</strong> is just a program that is currently running.</p>
+<p>Every process gets its own number, called a <strong>PID</strong>, so the system can tell them apart.</p>
+<p>The very first process (called <strong>init</strong>) starts when Linux boots and then starts everything else.</p>
+<p>Programs that stay running quietly in the background are called <strong>services</strong> (or <strong>daemons</strong>). On a device like this one, services are what keep your fiber connection alive.</p>
+
+<hr>
+
+<h2>A program vs a process</h2>
+<p>A <em>program</em> is a file sitting in storage, doing nothing. A <em>process</em> is that same program after you start it — now it is alive in memory, using the CPU, maybe reading the network.</p>
+<p>The same program can run as several processes at once. Think of a recipe (the program) versus three cooks each making that recipe at the same time (three processes).</p>
+
+<h2>Every process has a number (the PID)</h2>
+<p>When Linux starts a process, it hands it a <strong>PID</strong> — short for "process ID", just a plain number. No two running processes share a number at the same time, so the system can point at exactly one of them to check on it or stop it.</p>
+<p>The first process to start always gets <strong>PID 1</strong>. That one is special.</p>
+
+<h2>init: the first program, the parent of all others</h2>
+<p>When Linux finishes loading, it starts a single program known as <strong>init</strong> (short for "initialise"). This is PID 1. Its job is to start everything else the system needs, in the right order.</p>
+<p>Because init starts the others, and those may start still more, every process on the machine can be traced back up to init. It is the root of a family tree.</p>
+
+<figure>
+<svg viewBox="0 0 520 250" role="img" aria-labelledby="fig8-t">
+  <title id="fig8-t">A process tree: init at the top, branching down to a logging service, a network service and a web-page service, one of which starts a helper process.</title>
+  <g font-size="12" fill="currentColor" text-anchor="middle">
+    <rect x="200" y="14" width="120" height="38" rx="6" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="260" y="33">init</text>
+    <text x="260" y="47" font-size="10">PID 1</text>
+
+    <rect x="40"  y="110" width="120" height="42" rx="6" fill="none" stroke="currentColor"/>
+    <text x="100" y="130">logging</text><text x="100" y="145" font-size="10">service</text>
+    <rect x="200" y="110" width="120" height="42" rx="6" fill="none" stroke="currentColor"/>
+    <text x="260" y="130">network</text><text x="260" y="145" font-size="10">service</text>
+    <rect x="360" y="110" width="120" height="42" rx="6" fill="none" stroke="currentColor"/>
+    <text x="420" y="130">web page</text><text x="420" y="145" font-size="10">service</text>
+
+    <rect x="360" y="196" width="120" height="42" rx="6" fill="none" stroke="currentColor"/>
+    <text x="420" y="216">helper</text><text x="420" y="231" font-size="10">process</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1.5" fill="none">
+    <line x1="260" y1="52" x2="100" y2="110"/>
+    <line x1="260" y1="52" x2="260" y2="110"/>
+    <line x1="260" y1="52" x2="420" y2="110"/>
+    <line x1="420" y1="152" x2="420" y2="196"/>
+  </g>
+</svg>
+<figcaption>Every process descends from init. Services are the long-lived branches.</figcaption>
+</figure>
+
+<hr>
+
+<h2>What is a service (daemon)?</h2>
+<p>Most programs you use run for a moment and then quit — you open them, they do a job, they stop. A <strong>service</strong> is different: it is a program meant to keep running for as long as the device is on, waiting quietly to do its job whenever it is needed.</p>
+<p>The old word for a service on Linux is <strong>daemon</strong> (pronounced "demon"). You will see both words. Many daemon names even end in the letter <code>d</code> — for example a logging daemon might be called <code>logd</code>.</p>
+<p>On your fiber device, the programs that keep the connection up, hand out network settings, and answer the management web page are all services. They were never opened by a person — they start on their own and stay running.</p>
+
+<h2>How services start automatically at boot</h2>
+<p>You never click anything to start these background programs. When the device powers on, init reads a list of services it is supposed to bring up, and starts each one. If a service later crashes, init can often start it again automatically. That is why a router or fiber device can sit unattended for months and keep working.</p>
+
+<h2>Looking at the list of what's running</h2>
+<p>On any Linux system you can ask "what is running right now?" Two common read-only tools answer that:</p>
+<ul>
+<li><code>ps</code> — prints a one-time list of processes: their PID, who owns them, and the program name.</li>
+<li><code>top</code> — shows the same kind of list but keeps refreshing, sorted by which processes are busiest. Press <code>q</code> to quit it.</li>
+</ul>
+<p>Both only <em>report</em>. They do not change anything, which makes them safe to explore with.</p>
+
+<hr>
+
+<h2>Examples</h2>
+<ul>
+<li><strong>Your web browser:</strong> a program on disk until you open it. Open it and it becomes a process with a PID. Open it twice and you have two processes.</li>
+<li><strong>A clock in the corner of a screen:</strong> a tiny service. Nobody re-launches it every minute; it just keeps running.</li>
+<li><strong>The fiber connection on this device:</strong> kept alive by a background service. If it stops, init can restart it — no human needed.</li>
+<li><strong>A reading of <code>ps</code></strong> might show a line like <code>1 root init</code>: PID 1, owned by the root user, running the program init. That single line is the top of the whole tree.</li>
+</ul>
+
+<hr>
+
+<h2>Quick quiz</h2>
+
+<div class="quiz">
+<p class="q">1. What is a "process"?</p>
+<ul>
+<li><button data-correct>A program that is currently running</button></li>
+<li><button>A program file sitting unused in storage</button></li>
+<li><button>A type of network cable</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">2. Which process starts first and starts all the others?</p>
+<ul>
+<li><button data-correct>init, which has PID 1</button></li>
+<li><button>The web browser</button></li>
+<li><button>The last service in the list</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">3. What is a "service" (daemon)?</p>
+<ul>
+<li><button data-correct>A background program meant to keep running the whole time the device is on</button></li>
+<li><button>A program that runs once and immediately quits</button></li>
+<li><button>A physical chip on the board</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<hr>
+
+<h2>Try it yourself (safe)</h2>
+<p>Pick <strong>one</strong> of these. Neither changes anything.</p>
+<ol>
+<li>On any Linux PC you already own, open a terminal and type <code>ps</code> then Enter. You will get a short list. Find the columns that show the PID number and the program name.</li>
+<li>Or, with no computer at all: write two or three sentences in your own words explaining what a service is and why it does not need a person to start it.</li>
+</ol>
+
+<div class="warning">
+<p>Do this on a normal Linux PC or your own account, not on the fiber device. <code>ps</code> and <code>top</code> only read — but stay with read-only tools while you are learning.</p>
+</div>
+
+<details>
+<summary>Self-check: in a line of <code>ps</code> output, what does the first number usually mean, and what makes PID 1 special?</summary>
+<p>The first number is the process's PID — its unique ID for as long as it runs. PID 1 is special because it is init, the first process started at boot and the parent that every other process descends from.</p>
+</details>
+
+<hr>
+
+<h2>Recap</h2>
+<ul>
+<li>A process is a running program; a program on disk is not yet a process.</li>
+<li>Each running process has a unique number, its PID.</li>
+<li>init is PID 1 — the first process, and the parent of all the others.</li>
+<li>Services (daemons) are background programs that keep running the whole time the device is on.</li>
+<li>Services start automatically at boot; init can restart them if they crash.</li>
+<li><code>ps</code> and <code>top</code> list what is running, and only read — they change nothing.</li>
+</ul>
+
+<hr>
+
+<h2>Next</h2>
+<p>Part 9 steps outside the box: how this device actually talks to the Internet — Ethernet, IP and MAC addresses, DHCP, and the fiber system called GPON.</p>
+
+<nav class="lessons">
+<a href="/lessons/07-linux-filesystem.html">← Part 7: Linux File System</a>
+<a href="/lessons/09-networking-basics.html">Part 9: Networking → </a>
+</nav>
+
+<script src="/js/quiz.js" defer></script>
+</body>
+</html>

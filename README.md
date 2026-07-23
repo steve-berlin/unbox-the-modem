@@ -1,9 +1,12 @@
-# Nokia G-010G-P — a beginner's course & tutorial
+# Unbox the Modem — a beginner's Nokia G-010G-P course
 
 A static, plain-English course that teaches how the Nokia G-010G-P fiber modem
 works on the inside, and how to explore it safely — starting from zero
-experience. Course **and** hands-on tutorial, with quizzes, inline SVG diagrams,
-and a full glossary.
+experience. Course **and** hands-on tutorial: 20 parts (Introduction + Parts
+1–19) plus a 130-term glossary, with quizzes, "try it yourself" exercises,
+inline SVG diagrams, light/dark theme and no build step.
+
+Backed up at <https://github.com/steve-berlin/unbox-the-modem>.
 
 ## Tech
 
@@ -25,11 +28,14 @@ python3 -m http.server 8000
 ## Layout
 
 ```
-index.html                 course home + lesson list
-glossary.html              every term, in plain English
-lessons/                   one HTML file per lesson (multi-page)
-  01-introduction.html
-  02-inside-the-device.html
+index.html                 course home + full lesson list
+glossary.html              every term, in plain English (~130)
+lessons/                   one HTML file per part (multi-page)
+  00-introduction.html
+  01-whats-inside.html
+  02-uart-hidden-console.html
+  … through …
+  19-ethics-safety.html
 css/style.css              shared styles (light + dark, mobile)
 js/quiz.js                 progressive-enhancement quizzes
 docs/                      ELI11 notes for each script (see quiz.md)
@@ -53,11 +59,10 @@ CLAUDE.md                  guidance for AI assistants working on this repo
 ## Hosting & backups
 
 Hosting/deploy is managed by the site owner (pyweb-vanilla). The repo is backed
-up to a remote Git repository — add your remote and push:
+up to <https://github.com/steve-berlin/unbox-the-modem>:
 
 ```sh
-git remote add origin <your-repo-url>
-git push -u origin main
+git push origin main
 ```
 
 ## License

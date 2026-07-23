@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Part 1 — What's Inside · Nokia G-010G-P course</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<p class="crumb"><a href="/">Course home</a> › Part 1</p>
+
+<h1>Part 1 — What's Inside the Nokia G-010G-P?</h1>
+<p><strong>The parts, in plain PC terms, and exactly what happens when you power it on.</strong></p>
+
+<h2>TL;DR</h2>
+<p>Inside the device are the same building blocks as a desktop PC: a brain, some fast memory, permanent storage, and an operating system.</p>
+<p>When you plug it in, a tiny starter program wakes up, loads the operating system into fast memory, and the operating system then brings your Internet online.</p>
+<p>We stay outside the case this whole lesson — looking and learning only.</p>
+
+<hr>
+
+<h2>The parts, and their PC twins</h2>
+<p>You already know these parts from an ordinary computer. They just have smaller, quieter versions inside this box.</p>
+<table>
+<tr><th>Part inside the device</th><th>Its PC twin</th><th>What it does</th></tr>
+<tr><td>CPU</td><td>The brain / processor</td><td>Runs the software and makes every decision.</td></tr>
+<tr><td>RAM</td><td>Short-term memory</td><td>Fast scratch space, wiped every time power is lost.</td></tr>
+<tr><td>Permanent storage</td><td>The SSD or hard disk</td><td>Keeps everything even when unplugged.</td></tr>
+<tr><td>Bootloader</td><td>The starter motor</td><td>The first program to run; its job is to start the operating system.</td></tr>
+<tr><td>Operating system (Linux)</td><td>Windows or macOS</td><td>The main software that runs everything else.</td></tr>
+<tr><td>Configuration</td><td>Your settings</td><td>Passwords, network names, and details from your Internet provider.</td></tr>
+</table>
+<p>One quick word to define now, because we'll use it a lot: <strong>Linux</strong> is the name of the operating system family this device runs. You don't need to know anything about it yet — just that it's the "main software," the same role Windows plays on a laptop.</p>
+
+<figure>
+<svg viewBox="0 0 520 230" role="img" aria-labelledby="parts-fig-t">
+  <title id="parts-fig-t">A block diagram of the parts inside the device: a CPU connected to RAM and to permanent storage, and inside permanent storage sit the bootloader, the operating system and the configuration.</title>
+  <rect x="200" y="20" width="120" height="46" rx="6" fill="none" stroke="currentColor" stroke-width="2"/>
+  <text x="260" y="48" text-anchor="middle" font-size="12" fill="currentColor">CPU (brain)</text>
+  <rect x="30" y="110" width="140" height="46" rx="6" fill="none" stroke="currentColor"/>
+  <text x="100" y="138" text-anchor="middle" font-size="12" fill="currentColor">RAM (fast, erased)</text>
+  <rect x="200" y="110" width="290" height="100" rx="6" fill="none" stroke="currentColor" stroke-width="2"/>
+  <text x="345" y="130" text-anchor="middle" font-size="12" fill="currentColor">Permanent storage (kept when off)</text>
+  <rect x="215" y="145" width="80" height="50" rx="4" fill="none" stroke="currentColor"/>
+  <text x="255" y="167" text-anchor="middle" font-size="10" fill="currentColor">Boot-</text>
+  <text x="255" y="180" text-anchor="middle" font-size="10" fill="currentColor">loader</text>
+  <rect x="305" y="145" width="90" height="50" rx="4" fill="none" stroke="currentColor"/>
+  <text x="350" y="167" text-anchor="middle" font-size="10" fill="currentColor">Operating</text>
+  <text x="350" y="180" text-anchor="middle" font-size="10" fill="currentColor">system</text>
+  <rect x="405" y="145" width="75" height="50" rx="4" fill="none" stroke="currentColor"/>
+  <text x="442" y="167" text-anchor="middle" font-size="10" fill="currentColor">Config /</text>
+  <text x="442" y="180" text-anchor="middle" font-size="10" fill="currentColor">settings</text>
+  <line x1="230" y1="66" x2="120" y2="110" stroke="currentColor" stroke-width="1.5"/>
+  <line x1="290" y1="66" x2="330" y2="110" stroke="currentColor" stroke-width="1.5"/>
+</svg>
+<figcaption>The CPU talks to fast RAM and to permanent storage. The storage is divided into labelled sections — here, the bootloader, the operating system, and the settings.</figcaption>
+</figure>
+
+<hr>
+
+<h2>What happens when you plug it in?</h2>
+<p>Every start-up follows the same steps, in the same order. This whole sequence is called <strong>booting</strong>.</p>
+<ol>
+<li>Power reaches the CPU and it wakes up.</li>
+<li>The CPU runs the <strong>bootloader</strong> — the tiny starter program.</li>
+<li>The bootloader finds the operating system in permanent storage.</li>
+<li>It copies the operating system into RAM, because RAM is much faster to work from.</li>
+<li>The operating system starts running.</li>
+<li>Its networking programs start up.</li>
+<li>The fiber connection comes online and your Internet works.</li>
+</ol>
+
+<figure>
+<svg viewBox="0 0 560 90" role="img" aria-labelledby="boot-fig-t">
+  <title id="boot-fig-t">Boot flow left to right: Power, then CPU, then Bootloader, then operating system copied into RAM, then Networking, then Fiber online.</title>
+  <g font-size="11" fill="currentColor" text-anchor="middle">
+    <rect x="6"   y="30" width="72" height="34" rx="5" fill="none" stroke="currentColor"/><text x="42"  y="51">Power</text>
+    <rect x="102" y="30" width="72" height="34" rx="5" fill="none" stroke="currentColor"/><text x="138" y="51">CPU</text>
+    <rect x="198" y="30" width="82" height="34" rx="5" fill="none" stroke="currentColor"/><text x="239" y="51">Bootloader</text>
+    <rect x="304" y="30" width="82" height="34" rx="5" fill="none" stroke="currentColor"/><text x="345" y="51">OS→RAM</text>
+    <rect x="410" y="30" width="66" height="34" rx="5" fill="none" stroke="currentColor"/><text x="443" y="51">Network</text>
+    <rect x="500" y="30" width="54" height="34" rx="5" fill="none" stroke="currentColor"/><text x="527" y="51">Fiber</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1.5">
+    <line x1="78" y1="47" x2="100" y2="47"/><line x1="174" y1="47" x2="196" y2="47"/>
+    <line x1="280" y1="47" x2="302" y2="47"/><line x1="386" y1="47" x2="408" y2="47"/>
+    <line x1="476" y1="47" x2="498" y2="47"/>
+  </g>
+</svg>
+<figcaption>Every start-up walks left to right through these steps.</figcaption>
+</figure>
+
+<hr>
+
+<h2>Permanent storage vs RAM</h2>
+<p><strong>Permanent storage</strong> holds everything that must survive being unplugged: the operating system, the settings, the programs, and the recovery software. Pull the plug and it is all still there when you return.</p>
+<p><strong>RAM</strong> is fast, temporary working memory. The operating system is copied into it at start-up because RAM is quick to work from. The moment power is lost, RAM is completely blank again. This is why nothing you keep long-term lives in RAM.</p>
+
+<h2>What is a bootloader?</h2>
+<p>The bootloader is the very first software to run — the device's starter motor. It is small and single-minded: find the operating system and get it running. On many embedded Linux devices the bootloader is a well-known program called <strong>U-Boot</strong>, and a bootloader can often also update the system, recover a broken one, or run basic checks. Whether that's exactly the case on your unit is something you'll confirm later by watching the device start.</p>
+
+<h2>Where does Linux live?</h2>
+<p>The operating system lives in permanent storage. That storage is not one big undivided blob — it is split into labelled sections, one for the bootloader, one for the operating system, one for settings, and usually one for a recovery system. Those sections are called <strong>partitions</strong>: think of a filing cabinet with separate, labelled drawers rather than one big pile.</p>
+
+<div class="note">
+<p>The <em>exact</em> partition names and sizes vary by model and version. This course teaches you how to read them off your own device later — we won't guess numbers for your specific unit.</p>
+</div>
+
+<h2>What is "root"?</h2>
+<p>An operating system like Linux has different permission levels. A normal user can change only a few things. The <strong>root</strong> user is the all-powerful account: it can install software, edit any system file, change passwords, and reconfigure the hardware. Great power, and a great way to break things — which is exactly why we back up first.</p>
+
+<h2>What is reverse engineering?</h2>
+<p>Reverse engineering means working out how something behaves <em>without</em> the original design documents. For hardware, that's finding the chips, reading their part numbers, and locating hidden connectors. For software, it's listing files, reading settings, and studying the start-up scripts. The goal is always understanding — not guessing.</p>
+
+<hr>
+
+<h2>Examples</h2>
+<ul>
+<li><strong>Bootloader as a starter motor:</strong> a car engine can't start itself; a small motor gets it turning, then hands off. The bootloader does that for the operating system, then steps aside.</li>
+<li><strong>RAM as a whiteboard:</strong> quick to write on during a meeting, but wiped clean at the end. Permanent storage is the notebook you keep.</li>
+<li><strong>Partitions as labelled drawers:</strong> one drawer for the operating system, one for settings, one for recovery — separated so a mess in one doesn't spill into the others.</li>
+</ul>
+
+<hr>
+
+<h2>Quick quiz</h2>
+
+<div class="quiz">
+<p class="q">1. What runs first, before the operating system?</p>
+<ul>
+<li><button data-correct>The bootloader</button></li>
+<li><button>A web browser</button></li>
+<li><button>The fiber cable</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">2. What happens to whatever is in RAM when the power is removed?</p>
+<ul>
+<li><button data-correct>It is completely erased</button></li>
+<li><button>It is saved forever</button></li>
+<li><button>It moves to the fiber</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">3. What do we call the labelled sections that permanent storage is divided into?</p>
+<ul>
+<li><button data-correct>Partitions</button></li>
+<li><button>Batteries</button></li>
+<li><button>Cables</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<hr>
+
+<h2>Try it yourself (safe)</h2>
+<p>An observation-only exercise. The case stays shut and nothing gets taken apart.</p>
+<ol>
+<li>Look at the outside of your device. Note each <strong>port</strong> (the sockets you plug things into) — the fiber socket, the Ethernet socket(s), and the power socket — and write down which is which.</li>
+<li>Watch the <strong>LEDs</strong> (the little status lights). Plug the device in and note the order they light up and settle. You are watching the boot steps from the outside: power, then the system starting, then the network coming online.</li>
+<li>Read the label again and note anything printed about power (voltage) and the model. Don't act on it — just record it.</li>
+</ol>
+
+<div class="warning">
+<p><strong>Safety:</strong> do not open the case. This is a mains-powered device — never open a powered device, and never take this one apart in this lesson. Everything above is done by looking only.</p>
+</div>
+
+<details>
+<summary>Self-check: the lights change in a set order every time — why?</summary>
+<p>Because booting always follows the same fixed sequence: power reaches the CPU, the bootloader starts the operating system, and then the networking comes online. The LEDs are simply reporting those same steps from the outside, which is why the pattern repeats on every start-up.</p>
+</details>
+
+<hr>
+
+<h2>Recap</h2>
+<ul>
+<li>Inside are a CPU, RAM, permanent storage, a bootloader, an operating system, and settings — the same parts as a PC.</li>
+<li>Booting always follows the same order: power → CPU → bootloader → operating system into RAM → networking → fiber online.</li>
+<li>Permanent storage survives being unplugged; RAM is fast but wiped every time.</li>
+<li>Permanent storage is split into labelled <em>partitions</em>, and <em>root</em> is the all-powerful user.</li>
+<li>You observed your device's ports and LEDs from the outside — no opening the case.</li>
+</ul>
+
+<h2>Next</h2>
+<p>Part 2 introduces <strong>UART</strong> — the hidden console that lets you watch, in words, exactly what the device is doing as it starts up.</p>
+
+<nav class="lessons">
+<a href="/lessons/00-introduction.html">← Introduction</a>
+<a href="/lessons/02-uart-hidden-console.html">Part 2: UART → </a>
+</nav>
+
+<script src="/js/quiz.js" defer></script>
+</body>
+</html>

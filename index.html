@@ -3,54 +3,58 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Nokia G-010G-P — a beginner's course & tutorial</title>
-<meta name="description" content="A plain-English, no-jargon course that teaches how the Nokia G-010G-P fiber modem works and how to explore it safely — from zero experience.">
+<title>Unbox the Modem — a beginner's Nokia G-010G-P course</title>
+<meta name="description" content="A plain-English course and hands-on tutorial that teaches how the Nokia G-010G-P fiber modem works and how to explore it safely — from zero experience.">
 <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
-<h1>Nokia G-010G-P — From Scratch</h1>
-<p>A plain-English course <em>and</em> hands-on tutorial that teaches how this fiber modem works on the inside, and how to explore it safely — starting from zero experience.</p>
+<h1>Unbox the Modem</h1>
+<p>A plain-English course <em>and</em> hands-on tutorial about the Nokia G-010G-P fiber modem: how it works on the inside, and how to explore it safely — starting from zero experience.</p>
 
 <div class="note">
 <p><strong>Who this is for:</strong> complete beginners. No Linux, electronics, networking or programming needed. Every new word is explained before it's used, and there's a full <a href="/glossary.html">glossary</a>.</p>
 </div>
 
+<div class="warning">
+<p><strong>Safety first:</strong> opening or changing hardware and low-level software carries real risk to the device — and, with mains-powered gear, to you. Always understand a step and make a backup before doing it. Only work on a device you own or have clear permission to touch (see <a href="/lessons/19-ethics-safety.html">Part 19</a>).</p>
+</div>
+
 <hr>
 
-<h2>Lessons</h2>
-<ol class="toc">
-<li><a href="/lessons/01-introduction.html">Introduction</a> — what this device really is, and how the course works.</li>
-<li><a href="/lessons/02-inside-the-device.html">What's inside</a> — the parts, and how it boots Linux.</li>
-<li class="soon">UART <span class="tag">coming</span> — watch the device talk as it starts up.</li>
-<li class="soon">SSH <span class="tag">coming</span> — managing Linux over the network.</li>
-<li class="soon">Telnet <span class="tag">coming</span> — the older remote-access route.</li>
-<li class="soon">The boot process in depth <span class="tag">coming</span></li>
-<li class="soon">Storage, partitions &amp; backups <span class="tag">coming</span></li>
-<li class="soon">Reverse engineering, hands-on <span class="tag">coming</span></li>
-<li class="soon">Getting root access <span class="tag">coming</span></li>
-<li class="soon">Copying (dumping) the operating system <span class="tag">coming</span></li>
-<li class="soon">Is custom Linux realistic on this model? <span class="tag">coming</span></li>
+<h2>The course</h2>
+<ol class="toc" start="0">
+<li><a href="/lessons/00-introduction.html">Introduction</a> — what this device really is, and how the course works.</li>
+<li><a href="/lessons/01-whats-inside.html">Part 1 — What's Inside the Nokia G-010G-P?</a></li>
+<li><a href="/lessons/02-uart-hidden-console.html">Part 2 — UART: The Hidden Console</a></li>
+<li><a href="/lessons/03-opening-safely.html">Part 3 — Opening the Device Safely</a></li>
+<li><a href="/lessons/04-identifying-chips.html">Part 4 — Identifying the Main Chips</a></li>
+<li><a href="/lessons/05-how-embedded-linux-boots.html">Part 5 — How Embedded Linux Boots</a></li>
+<li><a href="/lessons/06-flash-and-partitions.html">Part 6 — Flash Storage and Partitions</a></li>
+<li><a href="/lessons/07-linux-filesystem.html">Part 7 — Understanding the Linux File System</a></li>
+<li><a href="/lessons/08-processes-and-services.html">Part 8 — Linux Processes and Services</a></li>
+<li><a href="/lessons/09-networking-basics.html">Part 9 — Networking Basics (Ethernet, GPON, IP, MAC, DHCP)</a></li>
+<li><a href="/lessons/10-bootloaders.html">Part 10 — How Bootloaders Work</a></li>
+<li><a href="/lessons/11-reverse-engineering.html">Part 11 — Reverse Engineering Fundamentals</a></li>
+<li><a href="/lessons/12-reading-circuit-boards.html">Part 12 — Reading Circuit Boards</a></li>
+<li><a href="/lessons/13-uart-in-detail.html">Part 13 — Serial Communication (UART) in More Detail</a></li>
+<li><a href="/lessons/14-embedded-filesystems.html">Part 14 — Common File Systems Used in Embedded Linux</a></li>
+<li><a href="/lessons/15-backups.html">Part 15 — Backups: Why They Matter and How They're Used</a></li>
+<li><a href="/lessons/16-cross-compiling.html">Part 16 — Introduction to Cross-Compiling Linux Software</a></li>
+<li><a href="/lessons/17-build-small-linux.html">Part 17 — Building a Small Embedded Linux System</a></li>
+<li><a href="/lessons/18-troubleshooting.html">Part 18 — Troubleshooting Embedded Linux</a></li>
+<li><a href="/lessons/19-ethics-safety.html">Part 19 — Ethics, Safety, and Responsible Research</a></li>
 </ol>
-<p class="crumb">Lessons are added one at a time, each verified before publishing rather than guessed.</p>
+<p><a href="/glossary.html">Glossary</a> — every term, in plain English.</p>
 
 <hr>
 
 <h2>How to use this course</h2>
 <ul>
-<li>Read lessons in order — each builds on the last.</li>
-<li>Do the quick quiz at the end of every lesson to check yourself.</li>
+<li>Read the parts in order — each builds on the one before.</li>
+<li>Do the quick quiz and the "Try it yourself" at the end of every part.</li>
 <li>Keep the <a href="/glossary.html">glossary</a> open in another tab for any unfamiliar word.</li>
 </ul>
-
-<div class="warning">
-<p><strong>Safety first:</strong> opening or changing hardware and low-level software carries real risk to the device (and, with mains-powered gear, to you). Always understand a step and make a backup before doing it. This site teaches understanding first, changes second.</p>
-</div>
-
-<hr>
-
-<h2>Glossary</h2>
-<p>Every technical word this course uses, defined in plain English → <a href="/glossary.html">open the glossary</a>.</p>
 
 </body>
 </html>

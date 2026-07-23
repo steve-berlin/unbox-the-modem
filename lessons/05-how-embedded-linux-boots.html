@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Part 5 — How Embedded Linux Boots · Nokia G-010G-P course</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<p class="crumb"><a href="/">Course home</a> › Part 5</p>
+
+<h1>Part 5 — How Embedded Linux Boots</h1>
+<p><strong>Turning power on, step by step, until the device is ready.</strong></p>
+
+<hr>
+
+<h2>TL;DR</h2>
+<p>When you power the device on, it does not wake up all at once. It goes through a fixed set of stages, one after another.</p>
+<p>A tiny bit of built-in start code runs first, then a small program called the bootloader, then the Linux operating system, then the first program, then the background programs, and finally the network comes up.</p>
+<p>Using UART from Part 4, you can watch every stage scroll past as plain text.</p>
+
+<hr>
+
+<h2>The boot stages, in order</h2>
+<p>"Booting" just means starting up. Each stage hands over to the next, a bit like a relay race. Here is the whole run:</p>
+
+<h3>1. Power on</h3>
+<p>Electricity reaches the main chip. Nothing clever happens yet — the chip simply comes alive and looks for its very first instruction.</p>
+
+<h3>2. Tiny built-in start code</h3>
+<p>The main chip has a very small amount of start code baked into it at the factory. This code cannot be changed. Its only job is to find and start the next stage — the bootloader — from permanent storage.</p>
+
+<h3>3. The bootloader</h3>
+<p>The bootloader is a small program whose job is to find the operating system in permanent storage, copy it into fast memory (RAM), and start it. Many embedded devices use a bootloader called U-Boot. A bootloader can often also update the operating system, recover a broken one, or run tests.</p>
+
+<h3>4. The Linux operating system starts</h3>
+<p>Now the main software takes over. Linux checks the hardware it can see, switches on the parts it needs, and prepares to run programs. This is the moment the device stops being "just a chip with power" and becomes a working computer.</p>
+
+<h3>5. The first program (init)</h3>
+<p>Linux always starts exactly one program itself. It is traditionally called <strong>init</strong> (short for "initialise"). Think of it as the foreman: it does not do the real work, but it starts everyone who does and keeps an eye on them.</p>
+
+<h3>6. Background programs (services)</h3>
+<p>The foreman now starts the helpers that run quietly in the background. These are called <strong>services</strong> — for example the program that manages the network, or the one that answers logins. They stay running the whole time the device is on.</p>
+
+<h3>7. The network comes up</h3>
+<p>Finally the networking services finish their setup and the fiber and Ethernet connections come online. The device is now doing its real job: carrying your Internet.</p>
+
+<figure>
+<svg viewBox="0 0 640 120" role="img" aria-labelledby="fig5-t">
+  <title id="fig5-t">A left-to-right timeline of boot stages: Power on, tiny built-in start code, bootloader, Linux starts, first program init, background services, network up.</title>
+  <line x1="10" y1="90" x2="630" y2="90" stroke="currentColor" stroke-width="2"/>
+  <g font-size="10" fill="currentColor" text-anchor="middle">
+    <circle cx="45"  cy="90" r="5" fill="currentColor"/><text x="45"  y="70">Power</text>
+    <circle cx="145" cy="90" r="5" fill="currentColor"/><text x="145" y="70">Start code</text>
+    <circle cx="245" cy="90" r="5" fill="currentColor"/><text x="245" y="70">Bootloader</text>
+    <circle cx="345" cy="90" r="5" fill="currentColor"/><text x="345" y="70">Linux starts</text>
+    <circle cx="445" cy="90" r="5" fill="currentColor"/><text x="445" y="70">First program</text>
+    <circle cx="545" cy="90" r="5" fill="currentColor"/><text x="545" y="70">Services</text>
+    <circle cx="620" cy="90" r="5" fill="currentColor"/><text x="605" y="70">Network</text>
+  </g>
+  <polygon points="630,90 620,85 620,95" fill="currentColor"/>
+  <text x="320" y="115" text-anchor="middle" font-size="11" fill="currentColor">time →</text>
+</svg>
+<figcaption>Each stage hands over to the next. The device is only ready at the far right.</figcaption>
+</figure>
+
+<div class="note">
+<p><strong>Why this matters:</strong> if the device stops working, the stage where it stops tells you where the problem is. A device that never gets past the bootloader has a very different fault from one that boots fully but has no network.</p>
+</div>
+
+<hr>
+
+<h2>You can watch it happen</h2>
+<p>Every stage prints short lines of text as it runs. With a UART connection (Part 4) you see these lines appear live while the device starts. This is called the <strong>boot log</strong>. Reading it is completely safe — you are only watching, not changing anything.</p>
+<p>The exact wording of the log is decided by the people who built the device, so it differs from model to model. But the <em>shape</em> is always the same: bootloader messages first, then Linux messages, then services starting.</p>
+
+<hr>
+
+<h2>Examples</h2>
+<ul>
+<li><strong>A home PC</strong> does the same thing: a maker's logo (start code and bootloader), then the operating system loads, then the login screen (services ready).</li>
+<li><strong>A phone</strong> too: the logo, then the animation while the system starts, then the home screen once the background programs are up.</li>
+<li><strong>Our device</strong> has no screen, so instead of a logo and a home screen it shows the same story as text over UART.</li>
+</ul>
+
+<hr>
+
+<h2>Quick quiz</h2>
+
+<div class="quiz">
+<p class="q">1. What runs first, right after power reaches the main chip?</p>
+<ul>
+<li><button data-correct>A tiny bit of built-in start code baked into the chip</button></li>
+<li><button>The web browser</button></li>
+<li><button>The network</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">2. What is the job of the bootloader?</p>
+<ul>
+<li><button data-correct>Find the operating system in storage and start it</button></li>
+<li><button>Answer phone calls</button></li>
+<li><button>Erase the storage</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">3. In the boot log, which messages appear last?</p>
+<ul>
+<li><button data-correct>The background services and the network coming up</button></li>
+<li><button>The bootloader messages</button></li>
+<li><button>The built-in start code</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<hr>
+
+<h2>Try it yourself (safe)</h2>
+<p>Below is a <strong>sample</strong> boot log. It is invented for this lesson — it is not from any real Nokia G-010G-P, and the wording on a real device will differ. Read each line and decide which stage it belongs to.</p>
+
+<pre>
+[ example log — invented for practice ]
+U-Boot 2018.03 starting
+Loading operating system from storage...
+Starting Linux ...
+Linux version 4.x  detected 128 MB memory
+init: starting first program
+service: network manager started
+service: login service started
+eth0: link is up — network ready
+</pre>
+
+<div class="warning">
+<p>Only ever <strong>read</strong> a boot log. Do not type into the bootloader or press keys to stop it unless you know exactly what a command does — the bootloader can change or erase storage.</p>
+</div>
+
+<details>
+<summary>Self-check: match each line to its stage</summary>
+<ul>
+<li><code>U-Boot ... starting</code> → the bootloader (stage 3).</li>
+<li><code>Loading operating system from storage</code> → still the bootloader, fetching Linux.</li>
+<li><code>Starting Linux</code> and <code>Linux version ...</code> → the Linux operating system starting (stage 4).</li>
+<li><code>init: starting first program</code> → the first program, init (stage 5).</li>
+<li><code>service: network manager started</code> and <code>login service started</code> → background services (stage 6).</li>
+<li><code>eth0: link is up — network ready</code> → the network coming up (stage 7).</li>
+</ul>
+</details>
+
+<hr>
+
+<h2>Recap</h2>
+<ul>
+<li>Booting is a fixed sequence of stages, each handing over to the next.</li>
+<li>The order is: power → built-in start code → bootloader → Linux → first program (init) → services → network.</li>
+<li>Every stage prints text you can watch live over UART.</li>
+<li>Where the boot stops tells you where a fault is.</li>
+</ul>
+
+<hr>
+
+<h2>Next</h2>
+<p>Part 6 opens up permanent storage: it is split into labelled sections called partitions, and we'll see what each one holds and why the split matters.</p>
+
+<nav class="lessons">
+<a href="/lessons/04-identifying-chips.html">← Part 4: Main Chips</a>
+<a href="/lessons/06-flash-and-partitions.html">Part 6: Flash &amp; Partitions → </a>
+</nav>
+
+<script src="/js/quiz.js" defer></script>
+</body>
+</html>

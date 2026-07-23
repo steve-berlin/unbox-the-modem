@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Part 19 — Ethics, Safety, and Responsible Research · Nokia G-010G-P course</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<p class="crumb"><a href="/">Course home</a> › Part 19</p>
+
+<h1>Part 19 — Ethics, Safety, and Responsible Research</h1>
+<p><strong>Work only on what's yours, and never harm the shared network.</strong></p>
+
+<hr>
+
+<h2>TL;DR</h2>
+<p>Only work on a device you own or have clear permission to work on.</p>
+<p>Many fiber devices are owned or leased by your internet provider, not by you — check before you open or change anything.</p>
+<p>The fiber network is <strong>shared</strong> with your neighbours. Observe it; never push junk onto it. And know the laws where you live.</p>
+
+<hr>
+
+<h2>Is it yours to work on?</h2>
+<p>The first question, every time: <em>am I allowed to do this to this device?</em> Work only on hardware you own outright, or that its owner has clearly said you may work on. If you're unsure, the honest answer is "not yet — go find out".</p>
+
+<h2>A real caution about fiber devices</h2>
+<p>Here's a fact worth knowing: fiber modems are very often <strong>owned or leased by the internet provider</strong>, not by the customer. The box may sit in your home, but it may not be legally yours. Opening it, changing its software, or resetting it can break the provider's terms — and possibly the law.</p>
+<div class="warning">
+<p>Before you open or change any fiber device, check who actually owns it. Read your contract, or simply ask your provider. "It's in my house" does not mean "it's mine to modify".</p>
+</div>
+
+<h2>Never disrupt the shared fiber network</h2>
+<p>Fiber to homes usually runs on a shared design (you'll see it called <strong>GPON</strong>). "Shared" is the key word: one fiber line serves several homes, so what one device does can affect the neighbours on the same line.</p>
+<p>That means a misbehaving device — one sending junk or transmitting when it shouldn't — can degrade service for other people, not just you. So the rule is simple: <strong>observe, don't transmit junk</strong>. Watching how your own device behaves is fine. Making a device blast improper signals onto the shared line is not.</p>
+
+<figure>
+<svg viewBox="0 0 520 220" role="img" aria-labelledby="fig19-t">
+  <title id="fig19-t">A three-question decision: is it your device, do you have permission, and is the action safe for the shared network. All three yes means proceed; any no means stop.</title>
+  <g font-size="12" fill="currentColor" text-anchor="middle">
+    <rect x="150" y="10" width="220" height="34" rx="5" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="260" y="31">Is it your device?</text>
+    <rect x="150" y="70" width="220" height="34" rx="5" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="260" y="91">Do you have permission?</text>
+    <rect x="150" y="130" width="220" height="34" rx="5" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="260" y="147">Safe for the shared</text>
+    <text x="260" y="160">network?</text>
+    <rect x="180" y="185" width="160" height="30" rx="5" fill="none" stroke="currentColor"/>
+    <text x="260" y="205">All yes → proceed</text>
+    <rect x="400" y="70" width="110" height="34" rx="5" fill="none" stroke="currentColor"/>
+    <text x="455" y="91">Any no → stop</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1.5" fill="none">
+    <line x1="260" y1="44" x2="260" y2="68"/>
+    <line x1="260" y1="104" x2="260" y2="128"/>
+    <line x1="260" y1="164" x2="260" y2="183"/>
+    <line x1="370" y1="87" x2="398" y2="87"/>
+  </g>
+</svg>
+<figcaption>All three must be "yes" before you touch anything.</figcaption>
+</figure>
+
+<h2>Laws differ — know yours</h2>
+<p>Rules about opening, modifying, and connecting equipment vary a lot from country to country. Something perfectly legal in one place may be forbidden in another. This course can't cover every country's law, so treat it as your job to learn the rules where you live before you act.</p>
+
+<h2>If you find a security problem: responsible disclosure</h2>
+<p>Suppose your study turns up a genuine security weakness. The responsible thing is <strong>responsible disclosure</strong>: quietly tell the maker or provider so they can fix it, and give them reasonable time before telling the wider world. The aim is to get it fixed and protect people — not to show off or to help anyone cause harm.</p>
+
+<h2>A final safety recap</h2>
+<ul>
+<li><strong>Physical:</strong> unplug before touching hardware. Never power a mains device with its case open. Be gentle with the optical fiber — never stare into its end.</li>
+<li><strong>Data:</strong> back up before changing anything (Part 15), and keep that backup somewhere safe.</li>
+</ul>
+
+<hr>
+
+<h2>Examples</h2>
+<ul>
+<li>You want to explore a modem, but your contract says it belongs to the provider. You ask them first — and don't open it until you have a clear answer.</li>
+<li>You only ever <em>watch</em> your device start over UART. You never make it transmit onto the fiber, so your neighbours are never affected.</li>
+<li>You spot a real flaw. You email the maker privately, wait for a fix, and only discuss details publicly once it's resolved.</li>
+</ul>
+
+<hr>
+
+<h2>Quick quiz</h2>
+
+<div class="quiz">
+<p class="q">1. A fiber modem sits in your home. Are you automatically free to modify it?</p>
+<ul>
+<li><button data-correct>No — it may be owned or leased by the provider; check first</button></li>
+<li><button>Yes, anything in your home is yours to change</button></li>
+<li><button>Only on weekends</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">2. Why be extra careful not to make a device misbehave on the fiber?</p>
+<ul>
+<li><button data-correct>The network is shared, so it can affect neighbours</button></li>
+<li><button>Fiber is unbreakable, so nothing matters</button></li>
+<li><button>It makes the device faster</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">3. You find a real security flaw. The responsible first step is…</p>
+<ul>
+<li><button data-correct>Quietly tell the maker or provider so they can fix it</button></li>
+<li><button>Post exact attack steps publicly right away</button></li>
+<li><button>Use it against other people's devices</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<hr>
+
+<h2>Try it yourself (safe)</h2>
+<p>Before you start <em>any</em> project from this course, tick this short checklist. If any box can't be ticked, stop and sort it out first.</p>
+<ul>
+<li>☐ I own this device, or its owner has clearly given me permission.</li>
+<li>☐ I've checked whether my internet provider owns or leases it.</li>
+<li>☐ Nothing I plan to do will push junk onto the shared fiber network.</li>
+<li>☐ I know the relevant laws where I live.</li>
+<li>☐ I've made a backup and stored it safely (Part 15).</li>
+<li>☐ The device is unplugged before I touch its hardware, and never mains-powered with the case open.</li>
+</ul>
+
+<div class="warning">
+<p>If even one box is unchecked, don't begin. Sorting it out first is what separates responsible research from trouble.</p>
+</div>
+
+<details>
+<summary>Self-check: the box is in your home but your contract says it's the provider's. Can you open it?</summary>
+<p>Not yet. It isn't yours to modify. Ask the provider for clear permission first — "it's in my house" is not enough.</p>
+</details>
+
+<hr>
+
+<h2>Recap</h2>
+<ul>
+<li>Work only on devices you own or have clear permission to work on.</li>
+<li>Fiber modems are often the provider's property — check before opening or changing one.</li>
+<li>The fiber network is shared; observe, never transmit junk that could hurt neighbours.</li>
+<li>Laws differ by country — learn yours.</li>
+<li>Found a flaw? Disclose it responsibly. And always: unplug before touching, back up before changing.</li>
+</ul>
+
+<hr>
+
+<h2>Next</h2>
+<p>That's the last teaching part. The <a href="/glossary.html">Glossary</a> gathers every term the course introduced, each in plain English, for quick reference.</p>
+
+<nav class="lessons">
+<a href="/lessons/18-troubleshooting.html">← Part 18: Troubleshooting</a>
+<a href="/glossary.html">Glossary → </a>
+</nav>
+
+<script src="/js/quiz.js" defer></script>
+</body>
+</html>

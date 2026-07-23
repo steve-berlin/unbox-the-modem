@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Part 16 — Cross-Compiling · Nokia G-010G-P course</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<p class="crumb"><a href="/">Course home</a> › Part 16</p>
+
+<h1>Part 16 — Introduction to Cross-Compiling Linux Software</h1>
+<p><strong>Building programs on your PC that run on the device.</strong></p>
+
+<hr>
+
+<h2>TL;DR</h2>
+<p>A program starts life as human-written text called <strong>source code</strong>. Turning that text into something the machine can actually run is called <strong>compiling</strong>.</p>
+<p>The catch: your PC and the device speak different machine languages. A program built for your PC won't run on the device, and the other way round.</p>
+<p>A <strong>cross-compiler</strong> solves this. It runs on your PC but makes programs for the device. That's the whole idea of this lesson.</p>
+
+<hr>
+
+<h2>What does "compiling" mean?</h2>
+<p>People write programs in a language they can read, such as C. The machine cannot run that text directly. A tool called a <strong>compiler</strong> translates the text into the numbers a processor understands. Those numbers are the finished program.</p>
+<p>So: <em>source code</em> (text a person wrote) goes in, and a <em>runnable program</em> comes out.</p>
+
+<h2>Why can't I just copy my PC program onto the device?</h2>
+<p>Every processor understands one particular machine language, called its <strong>instruction set</strong>. This is a fact you can rely on: a program compiled for one instruction set will not run on a different one.</p>
+<p>Most PCs and laptops use a family called <strong>x86</strong> (sometimes written x86-64 or amd64). Many small devices — modems, routers, cameras — use a different family, often <strong>ARM</strong> or <strong>MIPS</strong>. Because the languages differ, a program you build on your x86 PC is meaningless to an ARM or MIPS device.</p>
+<div class="note">
+<p>You cannot tell a device's instruction set just by looking at the case. You read it from the device itself — for example from the processor's markings, or from the operating system already on it. Part 12 covered finding that kind of detail on your own unit.</p>
+</div>
+
+<h2>Host and target</h2>
+<p>Two words make the rest of this easy:</p>
+<ul>
+<li><strong>Host</strong> — the machine you build <em>on</em>. That's your PC.</li>
+<li><strong>Target</strong> — the machine you build <em>for</em>. That's the device.</li>
+</ul>
+<p>Normal compiling is when host and target are the same (build on your PC, run on your PC). <strong>Cross-compiling</strong> is when they differ: build on the host, run on the target.</p>
+
+<figure>
+<svg viewBox="0 0 560 150" role="img" aria-labelledby="fig16-t">
+  <title id="fig16-t">Source code on the PC goes through a cross-compiler and comes out as a program for the device.</title>
+  <g font-size="12" fill="currentColor" text-anchor="middle">
+    <rect x="10" y="50" width="120" height="50" rx="6" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="70" y="72">source code</text>
+    <text x="70" y="90" font-size="10">(on your PC)</text>
+    <rect x="210" y="50" width="140" height="50" rx="6" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="280" y="72">cross-compiler</text>
+    <text x="280" y="90" font-size="10">(runs on your PC)</text>
+    <rect x="430" y="50" width="120" height="50" rx="6" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="490" y="72">program for</text>
+    <text x="490" y="90">the device</text>
+  </g>
+  <g stroke="currentColor" stroke-width="2">
+    <line x1="130" y1="75" x2="208" y2="75"/>
+    <polygon points="208,75 200,71 200,79" fill="currentColor" stroke="none"/>
+    <line x1="350" y1="75" x2="428" y2="75"/>
+    <polygon points="428,75 420,71 420,79" fill="currentColor" stroke="none"/>
+  </g>
+</svg>
+<figcaption>The host builds it; the target runs it.</figcaption>
+</figure>
+
+<h2>A quick word on "toolchain"</h2>
+<p>You'll see the word <strong>toolchain</strong>. It just means the compiler plus its helper tools bundled together — the little set of programs needed to turn source code into a working program for one particular target. A "cross-toolchain" is that bundle aimed at a device instead of your PC. You don't need to master it now; just recognise the word when it appears.</p>
+
+<hr>
+
+<h2>Examples</h2>
+<ul>
+<li>You write a small program on your x86 laptop and want it to run on an ARM device. You compile it with an ARM cross-compiler, copy the result to the device, and it runs there.</li>
+<li>A friend hands you a program that runs fine on their PC. It won't run on the device — same reason a French instruction manual doesn't help someone who only reads Japanese. Different language, no translation.</li>
+<li>Big projects (covered next lesson) build hundreds of programs for a device this exact way, all cross-compiled on a powerful PC because the device itself is too small and slow to do the building.</li>
+</ul>
+
+<hr>
+
+<h2>Quick quiz</h2>
+
+<div class="quiz">
+<p class="q">1. What does "compiling" turn source code into?</p>
+<ul>
+<li><button data-correct>A program the machine can run</button></li>
+<li><button>A backup of the device</button></li>
+<li><button>An Ethernet cable</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">2. In cross-compiling, what is the "target"?</p>
+<ul>
+<li><button data-correct>The device you are building the program for</button></li>
+<li><button>The PC you are building on</button></li>
+<li><button>The compiler itself</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">3. Why won't a program built for an x86 PC run on an ARM device?</p>
+<ul>
+<li><button data-correct>They use different instruction sets (machine languages)</button></li>
+<li><button>ARM devices can't run any programs</button></li>
+<li><button>x86 programs are always too big</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<hr>
+
+<h2>Try it yourself (safe)</h2>
+<p>This only reads information — it changes nothing.</p>
+<ol>
+<li>On a Linux or Mac PC, open a terminal and run <code>uname -m</code>. On Windows, open <em>Settings → System → About</em> and look at the system type. Note what your PC reports.</li>
+<li>Most PCs will show something in the x86 family (like <code>x86_64</code> or "64-bit x86"). Write it down.</li>
+<li>Now think: your device almost certainly uses a <em>different</em> family, likely ARM or MIPS. You'll confirm the exact one on your own unit later — don't assume it here.</li>
+</ol>
+
+<div class="warning">
+<p>Nothing here touches the device. <code>uname -m</code> and the Windows About screen only report information; they don't write or install anything.</p>
+</div>
+
+<details>
+<summary>Self-check: your PC says <code>x86_64</code> and your device is ARM. Can you copy a program straight across?</summary>
+<p>No. Different instruction sets mean the program is unreadable to the other machine. You'd need to cross-compile the program for ARM first.</p>
+</details>
+
+<hr>
+
+<h2>Recap</h2>
+<ul>
+<li>Compiling turns human-written source code into a runnable program.</li>
+<li>A processor understands only its own machine language (instruction set).</li>
+<li>Your PC (host) is usually x86; the device (target) is often ARM or MIPS.</li>
+<li>A cross-compiler runs on the host but produces programs for the target.</li>
+<li>A "toolchain" is just the compiler plus its helper tools.</li>
+</ul>
+
+<hr>
+
+<h2>Next</h2>
+<p>Part 17 uses cross-compiling for real: assembling the few pieces that make up a small, complete Linux system — and how to test it safely on your PC.</p>
+
+<nav class="lessons">
+<a href="/lessons/15-backups.html">← Part 15: Backups</a>
+<a href="/lessons/17-build-small-linux.html">Part 17: Build a Linux → </a>
+</nav>
+
+<script src="/js/quiz.js" defer></script>
+</body>
+</html>

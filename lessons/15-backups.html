@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Part 15 — Backups: Why They Matter · Nokia G-010G-P course</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<p class="crumb"><a href="/">Course home</a> › Part 15</p>
+
+<h1>Part 15 — Backups: Why They Matter and How They're Used</h1>
+<p><strong>The course's golden rule: copy everything before you change anything.</strong></p>
+
+<hr>
+
+<h2>TL;DR</h2>
+<p>Before you change anything on the device, make a <strong>complete copy</strong> of its storage. This is the golden rule of the whole course.</p>
+<p>A good backup lets you undo a mistake that would otherwise stop the device from starting. Prove the copy is good with a <strong>checksum</strong> — a short fingerprint that matches only if the copy is exact — and keep <strong>more than one</strong> copy.</p>
+<p>If something breaks, you <strong>restore</strong>: write the good copy back.</p>
+
+<hr>
+
+<h2>Why back up first?</h2>
+<p>Everything that makes the device work — the operating system, its settings, its recovery tools — lives in its permanent storage. If a change scrambles the wrong part, the device may no longer start at all, and there may be no button that brings it back.</p>
+<p>A backup is a <strong>complete copy</strong> of that storage, made <em>before</em> you touch anything. It is your undo button. Without it, a single mistake can be permanent. With it, almost any mistake is recoverable.</p>
+
+<div class="note">
+<p><strong>The golden rule of this course:</strong> never change the device until you have a complete, verified backup safely stored somewhere else. Everything hands-on we do later assumes you have one.</p>
+</div>
+
+<hr>
+
+<h2>The backup → change → restore cycle</h2>
+<p>Working on a device safely is a loop. You copy first, then change, and if anything goes wrong you put the copy back.</p>
+
+<figure>
+<svg viewBox="0 0 540 170" role="img" aria-labelledby="fig15-t">
+  <title id="fig15-t">A cycle: back up the storage, then make a change, and if it goes wrong, restore the backup and return to a working device.</title>
+  <g font-size="12" fill="currentColor" text-anchor="middle">
+    <rect x="20"  y="60" width="120" height="50" rx="8" fill="none" stroke="currentColor" stroke-width="2"/><text x="80"  y="82">1. Back up</text><text x="80" y="98" font-size="10">(complete copy)</text>
+    <rect x="210" y="60" width="120" height="50" rx="8" fill="none" stroke="currentColor" stroke-width="2"/><text x="270" y="82">2. Change</text><text x="270" y="98" font-size="10">(carefully)</text>
+    <rect x="400" y="60" width="120" height="50" rx="8" fill="none" stroke="currentColor" stroke-width="2"/><text x="460" y="82">3. Restore</text><text x="460" y="98" font-size="10">(if it breaks)</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1.5" fill="none">
+    <line x1="140" y1="85" x2="208" y2="85"/>
+    <polyline points="200,80 210,85 200,90"/>
+    <line x1="330" y1="85" x2="398" y2="85"/>
+    <polyline points="390,80 400,85 390,90"/>
+    <!-- restore loops back -->
+    <path d="M460 60 C 460 20, 80 20, 80 58"/>
+    <polyline points="74,50 80,60 88,52"/>
+  </g>
+  <text x="270" y="30" text-anchor="middle" font-size="10" fill="currentColor">restore returns you to a working device</text>
+</svg>
+<figcaption>The backup is what turns "change" from a gamble into something you can undo.</figcaption>
+</figure>
+
+<hr>
+
+<h2>Verifying a backup with a checksum</h2>
+<p>A copy is only useful if it is <em>exact</em>. A single flipped bit can make a restored copy fail. You prove a copy matches the original with a <strong>checksum</strong>: a short string of characters worked out from the file's contents, like a fingerprint.</p>
+<p>Change even one tiny piece of the file and the checksum comes out completely different. So you take the checksum of the original and of the copy: if the two match, the copy is trustworthy. If they differ, something went wrong and you copy again.</p>
+<p>A common tool for this is <code>sha256sum</code> on Linux and Mac, or <code>certutil -hashfile</code> on Windows. Both read a file and print its fingerprint.</p>
+
+<hr>
+
+<h2>Keep more than one copy, and restoring</h2>
+<p>One copy can be lost — a dead drive, a deleted folder, a corrupted file. Keep <strong>at least two</strong> copies, ideally in different places (say, on your PC and on a separate USB drive). The effort is tiny next to the cost of losing your only lifeline.</p>
+<p><strong>Restoring</strong> is the reverse of backing up: you write a good copy back onto the device's storage, returning it to the exact state it was in when you made the backup. Because you verified the copy with a checksum, you can trust that what you write back is correct.</p>
+
+<hr>
+
+<h2>Examples</h2>
+<ul>
+<li>Before changing a single setting, you copy the whole storage to your PC and check its fingerprint — now you can experiment without fear.</li>
+<li>A change leaves the device unable to start. You write your verified backup back onto it, and it boots again as if nothing happened.</li>
+<li>You keep one copy on your laptop and a second on a USB stick in a drawer, so a lost laptop doesn't cost you the backup.</li>
+<li>You copy a file, but its checksum doesn't match the original — a sign the copy is faulty, so you make it again rather than trust it.</li>
+</ul>
+
+<hr>
+
+<h2>Quick quiz</h2>
+
+<div class="quiz">
+<p class="q">1. When should you make a complete backup of the device?</p>
+<ul>
+<li><button data-correct>Before changing anything</button></li>
+<li><button>Only after something breaks</button></li>
+<li><button>Never — it wastes space</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">2. What does a checksum tell you?</p>
+<ul>
+<li><button data-correct>Whether a copy exactly matches the original</button></li>
+<li><button>How fast the device boots</button></li>
+<li><button>The device's Wi-Fi password</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">3. Why keep more than one copy?</p>
+<ul>
+<li><button data-correct>A single copy can be lost or corrupted</button></li>
+<li><button>To make the device faster</button></li>
+<li><button>Copies improve the fiber signal</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<hr>
+
+<h2>Try it yourself (safe)</h2>
+<p>You'll practise the fingerprint idea on your <strong>own PC</strong> — no device involved. Pick any small file you don't mind editing (make a copy first if it matters).</p>
+<p><strong>On Linux or Mac,</strong> open a terminal in the file's folder and run:</p>
+<pre><code>sha256sum myfile.txt</code></pre>
+<p><strong>On Windows,</strong> open Command Prompt and run:</p>
+<pre><code>certutil -hashfile myfile.txt SHA256</code></pre>
+<p>Note the long string it prints. Now open the file, change one character, save it, and run the same command again. Compare the two fingerprints.</p>
+
+<details>
+<summary>Self-check: what should have happened to the checksum?</summary>
+<p>It should be completely different — not just slightly changed. Even a one-character edit produces an entirely new fingerprint. That is exactly why a checksum can prove a backup matches the original: if the two fingerprints are identical, the contents are identical; if they differ at all, the copy is not a perfect match and you should make it again.</p>
+</details>
+
+<div class="warning">
+<p>Practise checksums only on ordinary files on your own computer. Do not run anything against the Nokia device yet — actually copying its storage comes in a later, carefully explained step, and only after you understand the tools.</p>
+</div>
+
+<hr>
+
+<h2>Recap</h2>
+<ul>
+<li>Always make a complete copy of the device's storage before changing anything — the course's golden rule.</li>
+<li>A backup is your undo button for mistakes that would otherwise stop the device starting.</li>
+<li>A checksum is a short fingerprint that proves a copy exactly matches the original.</li>
+<li>Keep at least two copies, ideally in different places.</li>
+<li>Restoring means writing a good copy back to return the device to a working state.</li>
+</ul>
+
+<h2>Next</h2>
+<p>Part 16 introduces cross-compiling: building software on your PC that is meant to run on the device's different kind of processor.</p>
+
+<nav class="lessons">
+<a href="/lessons/14-embedded-filesystems.html">← Part 14: Embedded File Systems</a>
+<a href="/lessons/16-cross-compiling.html">Part 16: Cross-Compiling → </a>
+</nav>
+
+<script src="/js/quiz.js" defer></script>
+</body>
+</html>

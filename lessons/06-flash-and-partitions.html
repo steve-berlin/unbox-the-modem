@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Part 6 — Flash Storage and Partitions · Nokia G-010G-P course</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<p class="crumb"><a href="/">Course home</a> › Part 6</p>
+
+<h1>Part 6 — Flash Storage and Partitions</h1>
+<p><strong>Where the device keeps everything, and how that space is divided up.</strong></p>
+
+<hr>
+
+<h2>TL;DR</h2>
+<p>The device has permanent storage — memory that keeps its contents even when the power is off. Engineers call this kind of storage <strong>flash</strong>.</p>
+<p>That storage is not one big blob. It is divided into labelled sections called <strong>partitions</strong>, each holding one kind of thing: the bootloader, the operating system, the settings, and sometimes a spare recovery copy.</p>
+<p>The split lets each section be updated or repaired on its own — and it means erasing the wrong section can stop the device from starting.</p>
+
+<hr>
+
+<h2>What is permanent storage?</h2>
+<p>Permanent storage is memory that remembers its contents with the power off — the same idea as the drive in a laptop. On small devices like this one, that storage is a flash chip: a single small chip soldered to the board.</p>
+<p>You will sometimes hear the two common types named <strong>NAND</strong> and <strong>NOR</strong>. For this course the difference does not matter much — both are permanent storage. What matters is what is <em>stored</em> and <em>how it is arranged</em>.</p>
+
+<div class="note">
+<p><strong>Not the same as RAM.</strong> RAM (from Part 5) is fast, temporary working memory that is wiped the moment power is lost. Flash keeps its contents. Linux lives in flash and is copied into RAM to run.</p>
+</div>
+
+<hr>
+
+<h2>What is a partition?</h2>
+<p>Imagine one long shelf divided by dividers into labelled boxes. Each box has a name and holds one kind of item, and you can tidy or replace one box without disturbing the others. Partitions are exactly that: the storage is split into labelled sections, and each section holds one part of the system.</p>
+
+<figure>
+<svg viewBox="0 0 640 120" role="img" aria-labelledby="fig6-t">
+  <title id="fig6-t">A horizontal storage bar divided into labelled sections: bootloader, operating system, settings, and recovery copy.</title>
+  <g font-size="11" fill="currentColor" text-anchor="middle">
+    <rect x="10"  y="35" width="100" height="45" fill="none" stroke="currentColor" stroke-width="2"/><text x="60"  y="62">Bootloader</text>
+    <rect x="110" y="35" width="230" height="45" fill="none" stroke="currentColor" stroke-width="2"/><text x="225" y="62">Operating system</text>
+    <rect x="340" y="35" width="150" height="45" fill="none" stroke="currentColor" stroke-width="2"/><text x="415" y="62">Settings</text>
+    <rect x="490" y="35" width="140" height="45" fill="none" stroke="currentColor" stroke-width="2"/><text x="560" y="62">Recovery copy</text>
+  </g>
+  <text x="320" y="22" text-anchor="middle" font-size="12" fill="currentColor">one flash chip — divided into labelled sections</text>
+  <text x="320" y="102" text-anchor="middle" font-size="10" fill="currentColor">sizes shown are just for the picture — real ones vary by device</text>
+</svg>
+<figcaption>A typical layout. The real names, sizes and count on your unit may differ — you read those off the device itself.</figcaption>
+</figure>
+
+<hr>
+
+<h2>What each section usually holds</h2>
+<p>On many embedded devices the sections do these jobs. The exact names differ from device to device, so treat these as the usual roles, not fixed facts:</p>
+<table>
+<tr><th>Section</th><th>What it holds</th></tr>
+<tr><td>Bootloader</td><td>The small start-up program that loads the operating system (Part 5).</td></tr>
+<tr><td>Operating system</td><td>Linux itself and the programs that run on it.</td></tr>
+<tr><td>Settings</td><td>Your configuration: passwords, network names, ISP details. This survives a restart.</td></tr>
+<tr><td>Recovery copy</td><td>On some devices, a spare copy used to repair a broken operating system.</td></tr>
+</table>
+
+<hr>
+
+<h2>Why divide storage at all?</h2>
+<p>Keeping the parts separate has real benefits:</p>
+<ul>
+<li><strong>Update one part safely.</strong> A new operating system can be written to its own section without touching your settings.</li>
+<li><strong>Recover after a bad update.</strong> If a device has a recovery copy, it can rebuild the operating system while the bootloader stays untouched.</li>
+<li><strong>Protect the settings.</strong> Because your configuration lives in its own section, replacing the operating system need not erase your passwords and network names.</li>
+</ul>
+
+<div class="warning">
+<p><strong>Erasing the wrong section is dangerous.</strong> If the bootloader section is wiped, the device may no longer start at all — there is nothing left to load the operating system. This is why we <strong>always make a full backup of the storage before changing anything</strong> (covered properly in Part 15). A backup lets you write the working copy back if a step goes wrong.</p>
+</div>
+
+<hr>
+
+<h2>Examples</h2>
+<ul>
+<li><strong>A phone</strong> keeps the system and your photos in separate areas, so a system update does not delete your photos.</li>
+<li><strong>A home PC</strong> can have one drive split so the operating system and your documents sit apart — reinstalling the system need not touch the documents.</li>
+<li><strong>Our device</strong> uses the same idea in miniature: separate sections so the bootloader, Linux, settings and any recovery copy can be handled one at a time.</li>
+</ul>
+
+<hr>
+
+<h2>Quick quiz</h2>
+
+<div class="quiz">
+<p class="q">1. What is a partition?</p>
+<ul>
+<li><button data-correct>A labelled section of the permanent storage</button></li>
+<li><button>A type of network cable</button></li>
+<li><button>A temporary copy in RAM</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">2. Why is storage divided into sections?</p>
+<ul>
+<li><button data-correct>So parts can be updated or repaired separately</button></li>
+<li><button>To make the device heavier</button></li>
+<li><button>So the power drains faster</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">3. Which section, if wiped, is most likely to stop the device starting at all?</p>
+<ul>
+<li><button data-correct>The bootloader section</button></li>
+<li><button>The settings section</button></li>
+<li><button>The recovery copy</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<hr>
+
+<h2>Try it yourself (safe)</h2>
+<p>No hardware needed. This is a matching exercise — decide which section holds each thing, then check yourself below.</p>
+<ol>
+<li>Your saved Wi-Fi name and password.</li>
+<li>The very first program that runs at power-on.</li>
+<li>Linux and the programs that run on it.</li>
+<li>A spare copy used to repair a broken system.</li>
+</ol>
+
+<details>
+<summary>Self-check: which section holds each item?</summary>
+<ul>
+<li>1 → the <strong>settings</strong> section.</li>
+<li>2 → the <strong>bootloader</strong> section.</li>
+<li>3 → the <strong>operating system</strong> section.</li>
+<li>4 → the <strong>recovery copy</strong> (only on devices that have one).</li>
+</ul>
+<p>Remember: on your own unit the real names and sizes may differ. You confirm the actual layout by reading it off the device — never by guessing.</p>
+</details>
+
+<hr>
+
+<h2>Recap</h2>
+<ul>
+<li>Permanent (flash) storage keeps its contents with the power off.</li>
+<li>It is split into labelled sections called partitions.</li>
+<li>Typical sections: bootloader, operating system, settings, and sometimes a recovery copy.</li>
+<li>The split lets parts be updated or repaired separately.</li>
+<li>Erasing the wrong section can stop the device booting — so back up first.</li>
+</ul>
+
+<hr>
+
+<h2>Next</h2>
+<p>Part 7 steps inside the operating system to see how Linux arranges its files into a single tree of folders.</p>
+
+<nav class="lessons">
+<a href="/lessons/05-how-embedded-linux-boots.html">← Part 5: How Linux Boots</a>
+<a href="/lessons/07-linux-filesystem.html">Part 7: Linux File System → </a>
+</nav>
+
+<script src="/js/quiz.js" defer></script>
+</body>
+</html>
