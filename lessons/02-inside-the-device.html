@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lesson 2 — What's Inside · Nokia G-010G-P course</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<p class="crumb"><a href="/">Course home</a> › Lesson 2</p>
+
+<h1>Lesson 2 — What's Actually Inside the Nokia G-010G-P?</h1>
+
+<h2>TL;DR</h2>
+<p>Your Nokia G-010G-P is a very small Linux computer made for fiber Internet. Instead of a monitor and keyboard, it has an optical fiber connection and Ethernet ports.</p>
+
+<table>
+<tr><th>Part</th><th>Think of it as…</th></tr>
+<tr><td>CPU</td><td>The brain.</td></tr>
+<tr><td>RAM</td><td>The short-term memory.</td></tr>
+<tr><td>Flash storage</td><td>The SSD or hard drive.</td></tr>
+<tr><td>Bootloader</td><td>A tiny startup program that loads Linux.</td></tr>
+<tr><td>Linux</td><td>The operating system.</td></tr>
+<tr><td>Configuration</td><td>Settings like passwords, network names and ISP data.</td></tr>
+</table>
+
+<hr>
+
+<h2>What happens when you plug it in?</h2>
+<ol>
+<li>Power reaches the CPU.</li>
+<li>The CPU starts running the bootloader.</li>
+<li>The bootloader finds Linux in flash storage.</li>
+<li>Linux is copied into RAM.</li>
+<li>Linux starts running.</li>
+<li>The networking programs start.</li>
+<li>The fiber connection comes online.</li>
+</ol>
+<p>This whole process is called <strong>booting</strong>.</p>
+
+<figure>
+<svg viewBox="0 0 560 90" role="img" aria-labelledby="fig2-t">
+  <title id="fig2-t">Boot flow: Power to CPU to Bootloader to Linux copied into RAM to Networking to Fiber online.</title>
+  <g font-size="11" fill="currentColor" text-anchor="middle">
+    <rect x="6"   y="30" width="72" height="34" rx="5" fill="none" stroke="currentColor"/><text x="42"  y="51">Power</text>
+    <rect x="102" y="30" width="72" height="34" rx="5" fill="none" stroke="currentColor"/><text x="138" y="51">CPU</text>
+    <rect x="198" y="30" width="82" height="34" rx="5" fill="none" stroke="currentColor"/><text x="239" y="51">Bootloader</text>
+    <rect x="304" y="30" width="82" height="34" rx="5" fill="none" stroke="currentColor"/><text x="345" y="51">Linux→RAM</text>
+    <rect x="410" y="30" width="66" height="34" rx="5" fill="none" stroke="currentColor"/><text x="443" y="51">Network</text>
+    <rect x="500" y="30" width="54" height="34" rx="5" fill="none" stroke="currentColor"/><text x="527" y="51">Fiber</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1.5">
+    <line x1="78" y1="47" x2="100" y2="47"/><line x1="174" y1="47" x2="196" y2="47"/>
+    <line x1="280" y1="47" x2="302" y2="47"/><line x1="386" y1="47" x2="408" y2="47"/>
+    <line x1="476" y1="47" x2="498" y2="47"/>
+  </g>
+</svg>
+<figcaption>Every start-up walks left to right through these steps.</figcaption>
+</figure>
+
+<hr>
+
+<h2>What is flash storage?</h2>
+<p>Flash storage permanently holds everything inside the device: Linux, configuration, drivers, programs, logs and recovery software. Even after you unplug the power, this data stays.</p>
+
+<h2>What is RAM?</h2>
+<p>RAM is temporary working memory. When Linux starts, it is copied from flash storage into RAM because RAM is much faster. When power is removed, RAM is completely erased.</p>
+
+<h2>What is the bootloader?</h2>
+<p>The bootloader is the very first software that runs — think of it as the device's starter motor. Many embedded Linux devices use bootloaders such as U-Boot. A bootloader can often start Linux, update it, recover a broken installation, or run diagnostics.</p>
+
+<h2>Where is Linux?</h2>
+<p>Linux lives inside flash storage. The storage is usually divided into several sections — bootloader, Linux operating system, configuration, user data, recovery system. These sections are called <strong>partitions</strong>.</p>
+
+<hr>
+
+<h2>What does "reverse engineering" mean?</h2>
+<p>Reverse engineering means figuring out how something works without the original design documents.</p>
+<p>For hardware that might mean finding the chips, reading their model numbers, tracing wires on the board, and finding hidden connectors. For software it might mean listing files, reading configuration, studying startup scripts, and looking at the programs. The goal is understanding — not guessing.</p>
+
+<h2>What is "root"?</h2>
+<p>Linux has different permission levels. A normal user can change only some things. The <strong>root</strong> user can change almost everything: installing software, editing system files, deleting files, changing passwords, configuring hardware.</p>
+
+<div class="note">
+Always make a complete backup of the device's storage before making changes. If something goes wrong, you have a much better chance of restoring it.
+</div>
+
+<hr>
+
+<h2>Quick quiz</h2>
+
+<div class="quiz">
+<p class="q">1. Where does Linux run from once the device is on?</p>
+<ul>
+<li><button data-correct>RAM — it's copied there because RAM is faster</button></li>
+<li><button>The Ethernet cable</button></li>
+<li><button>It doesn't run anywhere</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<div class="quiz">
+<p class="q">2. What runs first, before Linux?</p>
+<ul>
+<li><button data-correct>The bootloader</button></li>
+<li><button>The web browser</button></li>
+<li><button>The fiber</button></li>
+</ul>
+<p class="verdict"></p>
+</div>
+
+<details>
+<summary>Self-test: why is a backup so important before touching low-level software?</summary>
+<p>Because the operating system lives in flash storage. If a change corrupts it, a good backup lets you write the working copy back and recover a device that would otherwise no longer start.</p>
+</details>
+
+<hr>
+
+<h2>Where we're going next</h2>
+<p>Lesson 3 explains <strong>UART</strong> — often the easiest way to watch exactly what the device is doing as it starts. We'll cover what it is, the hardware you need, how to recognise UART pins on a board, and how to safely connect a USB-to-UART adapter to observe the boot process without changing anything.</p>
+
+<nav class="lessons">
+<a href="/lessons/01-introduction.html">← Lesson 1: Introduction</a>
+<span></span>
+</nav>
+
+<script src="/js/quiz.js" defer></script>
+</body>
+</html>
