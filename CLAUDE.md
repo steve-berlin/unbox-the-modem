@@ -44,4 +44,4 @@ crumb → `<h1>` + lesson label → TL;DR → simple sections → inline SVG fig
 
 - Remote: https://github.com/steve-berlin/unbox-the-modem (branch `main`).
 - All 20 parts (00-introduction … 19-ethics-safety) + glossary written.
-- No license chosen yet — add one before publishing.
+- License: AGPL-3.0 (LICENSE from remote).

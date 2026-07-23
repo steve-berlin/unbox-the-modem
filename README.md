@@ -67,4 +67,4 @@ git push origin main
 
 ## License
 
-Not yet chosen. Add one before publishing.
+AGPL-3.0 — see [`LICENSE`](LICENSE).
