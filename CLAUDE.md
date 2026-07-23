@@ -28,6 +28,9 @@ crumb → `<h1>` + lesson label → TL;DR → simple sections → inline SVG fig
 ## Conventions
 
 - Quizzes: correct answer button gets `data-correct`. See `docs/quiz.md`.
+- Progress: `js/progress.js` self-injects a "mark done" toggle on lessons and
+  fills `#progress` + ticks `ol.toc li.done` on home (localStorage key
+  `utm-progress`). Every lesson loads quiz.js AND progress.js. See `docs/progress.md`.
 - SVG: inline, `viewBox`, `stroke/fill="currentColor"` so it themes + scales.
 - CSS variables drive light/dark; don't hardcode colors in pages.
 - Content is fact-checked before publishing. Don't invent hardware-hacking

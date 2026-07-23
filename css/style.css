@@ -121,3 +121,20 @@ ol.toc .soon { color: var(--muted); }
 figure { margin: 1.5rem 0; text-align: center; }
 figure svg { max-width: 100%; height: auto; }
 figcaption { color: var(--muted); font-size: 0.9rem; margin-top: 0.5rem; }
+
+/* Progress bar (home) + per-part checkmarks + mark-done toggle (lessons) */
+#progress { margin: 1.5rem 0 0.5rem; }
+#progress .track { background: var(--code-bg); border-radius: 999px; height: 12px; overflow: hidden; }
+#progress .fill { height: 100%; width: 0; background: var(--accent); transition: width 0.3s ease; }
+#progress .label { display: inline-block; margin-top: 0.4rem; font-size: 0.9rem; color: var(--muted); }
+
+ol.toc li.done > a::after { content: " ✓"; color: #1f7a3d; font-weight: 700; }
+@media (prefers-color-scheme: dark) { ol.toc li.done > a::after { color: #5bd07f; } }
+
+.mark-done {
+  display: block; margin: 2rem 0 0; padding: 0.6rem 1rem;
+  font: inherit; cursor: pointer; color: var(--fg); background: var(--bg);
+  border: 1px solid var(--line); border-radius: 6px;
+}
+.mark-done:hover { border-color: var(--link); }
+.mark-done[aria-pressed="true"] { background: #1f7a3d; border-color: #1f7a3d; color: #fff; }

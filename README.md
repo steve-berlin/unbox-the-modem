@@ -38,7 +38,8 @@ lessons/                   one HTML file per part (multi-page)
   19-ethics-safety.html
 css/style.css              shared styles (light + dark, mobile)
 js/quiz.js                 progressive-enhancement quizzes
-docs/                      ELI11 notes for each script (see quiz.md)
+js/progress.js             per-part "done" marks + home progress bar (localStorage)
+docs/                      ELI11 notes for each script (quiz.md, progress.md)
 TOPIC.md                   the course brief / spec
 CLAUDE.md                  guidance for AI assistants working on this repo
 ```
